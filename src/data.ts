@@ -19,10 +19,24 @@ export const profile = {
 
 export const education = [
   {
-    school: "[School or University]",
-    program: "[Degree, course, or program]",
-    period: "[Year started] — [Expected graduation]",
-    note: "[Optional focus area or relevant coursework]",
+    level: "Elementary",
+    school: "Papandayan Elementary School",
+    period: "2016–2017",
+  },
+  {
+    level: "Junior High School",
+    school: "Leuteboro National Highschool",
+    period: "2017–2021",
+  },
+  {
+    level: "Senior High School",
+    school: "Leuteboro National Highschool",
+    period: "2021–2023",
+  },
+  {
+    level: "College",
+    school: "STI College Batangas",
+    period: "2025–Present",
   },
 ];
 
@@ -37,7 +51,7 @@ export const skills = [
   },
   {
     category: "CREATIVE & DATA",
-    items: ["Blender", "electron-builder", "SQLite"],
+    items: ["Blender", "SQLite"],
   },
 ];
 

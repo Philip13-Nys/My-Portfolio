@@ -909,21 +909,20 @@ function App() {
           <div className="section-rule" />
           <div className="content-wrap awards-wrap">
             <SectionHead
-              kicker="05 / LEARNING IN PUBLIC"
-              title="Trainings & Hackathons"
+              kicker="05 / EDUCATION"
+              title="Educational Attainment"
             />
-            <div className="training-row">
-              <div className="training-copy">
-                <PixelLabel>EDUCATION / 01</PixelLabel>
-                <h3>{education[0].program}</h3>
-                <p>
-                  {education[0].school} · {education[0].period}
-                </p>
-                <p>{education[0].note}</p>
-              </div>
-              <div className="training-preview">
-                CERTIFICATE / EVENT PREVIEW
-              </div>
+            <div className="education-list" data-reveal>
+              {education.map((item, index) => (
+                <article className="education-item" key={item.level}>
+                  <span className="education-index">0{index + 1}</span>
+                  <div>
+                    <span className="education-level">{item.level}</span>
+                    <h3>{item.school}</h3>
+                  </div>
+                  <span className="education-period">{item.period}</span>
+                </article>
+              ))}
             </div>
           </div>
         </section>

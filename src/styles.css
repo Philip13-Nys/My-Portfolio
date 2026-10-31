@@ -949,6 +949,17 @@ button {
   }
 }
 @media (max-width: 680px) {
+  .education-item {
+    grid-template-columns: 28px minmax(0, 1fr);
+    gap: 10px;
+  }
+  .education-period {
+    grid-column: 2;
+    font-size: 9px;
+  }
+  .education-item h3 {
+    font-size: 12px;
+  }
   .skill-group ul {
     gap: 6px;
   }
@@ -2084,6 +2095,41 @@ html.js-reveal .contact-wrap:not(.is-visible) {
 }
 .training-section {
   background: var(--panel);
+}
+.education-list {
+  border-top: 1px solid var(--line);
+}
+.education-item {
+  display: grid;
+  grid-template-columns: 40px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 16px;
+  padding: 17px 4px;
+  border-bottom: 1px solid var(--line);
+  transition: background 180ms ease, padding 180ms ease;
+}
+.education-item:hover {
+  padding-inline: 10px;
+  background: color-mix(in srgb, var(--accent) 5%, transparent);
+}
+.education-index {
+  color: var(--accent);
+  font: 11px "Poppins", sans-serif;
+}
+.education-level {
+  color: var(--quiet);
+  font: 6px/1.7 "Press Start 2P", "Poppins", sans-serif;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+.education-item h3 {
+  margin: 6px 0 0;
+  font-size: 13px;
+}
+.education-period {
+  color: var(--muted);
+  font: 8px "Poppins", sans-serif;
+  white-space: nowrap;
 }
 .training-row {
   display: grid;
