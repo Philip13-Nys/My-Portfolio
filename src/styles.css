@@ -1544,12 +1544,14 @@ button {
 }
 
 .github-wrap {
-  padding-block: clamp(42px, 6vw, 76px);
+  padding-block: clamp(26px, 3.5vw, 44px);
 }
 
 .github-panel {
+  width: min(100%, 900px);
+  margin-inline: auto;
   min-width: 0;
-  padding: clamp(18px, 3.2vw, 46px);
+  padding: clamp(16px, 2.2vw, 30px);
   border: 1px solid var(--line);
   background: var(--panel);
   box-shadow: 4px 4px 0 color-mix(in srgb, var(--text) 6%, transparent);
@@ -1562,7 +1564,7 @@ button {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 18px;
+  gap: 14px;
 }
 
 .github-panel-title {
@@ -1579,7 +1581,7 @@ button {
 
 .github-profile-link,
 .github-refresh {
-  min-height: 42px;
+  min-height: 36px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -1605,12 +1607,12 @@ button {
 
 .github-panel-divider {
   height: 1px;
-  margin: 28px 0 20px;
+  margin: 20px 0 15px;
   background: var(--line);
 }
 
 .github-activity-heading {
-  margin-bottom: 19px;
+  margin-bottom: 14px;
 }
 
 .github-activity-heading p {
@@ -1619,12 +1621,12 @@ button {
   gap: 10px;
   margin: 0;
   color: var(--muted);
-  font-size: 14px;
+  font-size: 12px;
 }
 
 .github-activity-heading strong {
   color: var(--text);
-  font-size: clamp(19px, 2vw, 26px);
+  font-size: clamp(17px, 1.7vw, 22px);
 }
 
 .github-public-label {
@@ -1637,12 +1639,12 @@ button {
 }
 
 .github-calendar-wrap {
-  --github-cell: clamp(8px, 0.82vw, 13px);
+  --github-cell: clamp(7px, 0.7vw, 10px);
   display: grid;
-  grid-template-columns: 30px minmax(0, 1fr);
-  gap: 12px;
+  grid-template-columns: 26px minmax(0, 1fr);
+  gap: 9px;
   min-width: 0;
-  padding: 13px 12px;
+  padding: 10px;
   border: 1px solid var(--line);
 }
 
@@ -1806,7 +1808,7 @@ button.github-day[aria-pressed="true"] {
   }
 
   .github-calendar-wrap {
-    --github-cell: 9px;
+    --github-cell: 8px;
     grid-template-columns: 25px minmax(0, 1fr);
     gap: 7px;
     padding: 10px 8px;

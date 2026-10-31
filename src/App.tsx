@@ -30,13 +30,13 @@ import coverLetter from "./assets/philip-miguel-cover-letter.pdf";
 
 const nav = [
   ["Home", "#home"],
+  ["GitHub", "#github-activity"],
   ["Work", "#projects"],
   ["What I can do", "#skills"],
   ["About", "#about"],
   ["Awards", "#awards"],
   ["Experience", "#experience"],
   ["Documents", "#Documents"],
-  ["GitHub", "#github-activity"],
 ];
 
 type GitHubContribution = {
@@ -423,6 +423,165 @@ function App() {
             <a href="#projects" className="scroll-link">
               SCROLL TO EXPLORE <ArrowDown size={13} />
             </a>
+          </div>
+        </section>
+
+        <section className="github-section" id="github-activity">
+          <div className="section-rule" />
+          <div className="content-wrap github-wrap">
+            <div className="github-panel" data-reveal>
+              <div className="github-panel-header">
+                <span className="github-panel-title">
+                  <Github size={17} /> BUILD LOG / GITHUB
+                </span>
+                <a
+                  className="github-profile-link"
+                  href={profile.github}
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  @{githubUsername} <ArrowUpRight size={13} />
+                </a>
+              </div>
+
+              <div className="github-panel-divider" />
+              <div className="github-activity-heading">
+                <p>
+                  <strong>
+                    {activityLoading || activityError
+                      ? "—"
+                      : contributionTotal.toLocaleString()}
+                  </strong>
+                  <span>contributions in the past year</span>
+                </p>
+                <span className="github-public-label">
+                  PUBLIC GITHUB ACTIVITY
+                </span>
+              </div>
+
+              {contributionWeeks.length > 0 ? (
+                <div className="github-calendar-wrap">
+                  <div className="github-weekday-labels" aria-hidden="true">
+                    {(["", "Mon", "", "Wed", "", "Fri", ""] as const).map(
+                      (label, index) => (
+                        <span key={index}>{label}</span>
+                      ),
+                    )}
+                  </div>
+                  <div
+                    className="github-calendar-scroll"
+                    role="group"
+                    aria-label="GitHub contribution calendar for the past year"
+                    tabIndex={0}
+                  >
+                    <div
+                      className="github-month-labels"
+                      style={{
+                        gridTemplateColumns: `repeat(${contributionWeeks.length}, var(--github-cell))`,
+                      }}
+                      aria-hidden="true"
+                    >
+                      {monthLabels.map((month, index) => (
+                        <span key={index}>{month}</span>
+                      ))}
+                    </div>
+                    <div
+                      className="github-contribution-grid"
+                      style={{
+                        gridTemplateColumns: `repeat(${contributionWeeks.length}, var(--github-cell))`,
+                      }}
+                    >
+                      {contributionWeeks.flatMap((week, weekIndex) =>
+                        week.map((day, dayIndex) => {
+                          if (!day) {
+                            return (
+                              <span
+                                className="github-day github-day-empty"
+                                key={`${weekIndex}-${dayIndex}`}
+                                aria-hidden="true"
+                              />
+                            );
+                          }
+                          const dateLabel = new Date(
+                            `${day.date}T12:00:00`,
+                          ).toLocaleDateString("en", {
+                            month: "long",
+                            day: "numeric",
+                            year: "numeric",
+                          });
+                          return (
+                            <button
+                              className={`github-day level-${Math.max(0, Math.min(4, day.level))}`}
+                              key={`${weekIndex}-${dayIndex}`}
+                              type="button"
+                              title={`${day.count} contributions on ${dateLabel}`}
+                              aria-label={`${day.count} contributions on ${dateLabel}`}
+                              aria-pressed={
+                                summaryContribution?.date === day.date
+                              }
+                              onMouseEnter={() => setActiveContribution(day)}
+                              onMouseLeave={() => setActiveContribution(null)}
+                              onFocus={() => setActiveContribution(day)}
+                              onBlur={() => setActiveContribution(null)}
+                              onClick={() => setActiveContribution(day)}
+                            />
+                          );
+                        }),
+                      )}
+                    </div>
+                  </div>
+                </div>
+              ) : (
+                <div className="github-empty-state" aria-live="polite">
+                  {activityLoading
+                    ? "Loading public contribution activity…"
+                    : "Contribution activity is unavailable right now."}
+                </div>
+              )}
+
+              <div className="github-calendar-summary">
+                <p aria-live="polite">
+                  {summaryContribution
+                    ? `${summaryContribution.count} contributions on ${new Date(`${summaryContribution.date}T12:00:00`).toLocaleDateString("en", { month: "long", day: "numeric", year: "numeric" })}`
+                    : activityError
+                      ? "Open GitHub to view public activity."
+                      : "Hover over a day to view contributions."}
+                </p>
+                <div
+                  className="github-legend"
+                  aria-label="Contribution intensity legend"
+                >
+                  <span>Less</span>
+                  {[0, 1, 2, 3, 4].map((level) => (
+                    <span
+                      className={`github-day level-${level}`}
+                      key={level}
+                      aria-hidden="true"
+                    />
+                  ))}
+                  <span>More</span>
+                </div>
+              </div>
+
+              <div className="github-panel-footer">
+                <p>
+                  {activityUpdatedAt
+                    ? `Checked · ${activityUpdatedAt.toLocaleDateString("en", { month: "long", day: "numeric", year: "numeric" })}`
+                    : "Public contribution activity"}
+                  <br />
+                  Public calendar via GitHub Contributions API. Updates may take
+                  an hour.
+                </p>
+                <button
+                  type="button"
+                  className="github-refresh"
+                  onClick={() => setActivityReload((value) => value + 1)}
+                  disabled={activityLoading}
+                >
+                  {activityLoading ? "Loading…" : "Refresh"}
+                </button>
+              </div>
+            </div>
           </div>
         </section>
 
@@ -902,165 +1061,6 @@ function App() {
               <span>GAMING</span>
               <span>TECHNOLOGY</span>
               <span>CREATIVE WORK</span>
-            </div>
-          </div>
-        </section>
-
-        <section className="github-section" id="github-activity">
-          <div className="section-rule" />
-          <div className="content-wrap github-wrap">
-            <div className="github-panel" data-reveal>
-              <div className="github-panel-header">
-                <span className="github-panel-title">
-                  <Github size={17} /> BUILD LOG / GITHUB
-                </span>
-                <a
-                  className="github-profile-link"
-                  href={profile.github}
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  @{githubUsername} <ArrowUpRight size={13} />
-                </a>
-              </div>
-
-              <div className="github-panel-divider" />
-              <div className="github-activity-heading">
-                <p>
-                  <strong>
-                    {activityLoading || activityError
-                      ? "—"
-                      : contributionTotal.toLocaleString()}
-                  </strong>
-                  <span>contributions in the past year</span>
-                </p>
-                <span className="github-public-label">
-                  PUBLIC GITHUB ACTIVITY
-                </span>
-              </div>
-
-              {contributionWeeks.length > 0 ? (
-                <div className="github-calendar-wrap">
-                  <div className="github-weekday-labels" aria-hidden="true">
-                    {(["", "Mon", "", "Wed", "", "Fri", ""] as const).map(
-                      (label, index) => (
-                        <span key={index}>{label}</span>
-                      ),
-                    )}
-                  </div>
-                  <div
-                    className="github-calendar-scroll"
-                    role="group"
-                    aria-label="GitHub contribution calendar for the past year"
-                    tabIndex={0}
-                  >
-                    <div
-                      className="github-month-labels"
-                      style={{
-                        gridTemplateColumns: `repeat(${contributionWeeks.length}, var(--github-cell))`,
-                      }}
-                      aria-hidden="true"
-                    >
-                      {monthLabels.map((month, index) => (
-                        <span key={index}>{month}</span>
-                      ))}
-                    </div>
-                    <div
-                      className="github-contribution-grid"
-                      style={{
-                        gridTemplateColumns: `repeat(${contributionWeeks.length}, var(--github-cell))`,
-                      }}
-                    >
-                      {contributionWeeks.flatMap((week, weekIndex) =>
-                        week.map((day, dayIndex) => {
-                          if (!day) {
-                            return (
-                              <span
-                                className="github-day github-day-empty"
-                                key={`${weekIndex}-${dayIndex}`}
-                                aria-hidden="true"
-                              />
-                            );
-                          }
-                          const dateLabel = new Date(
-                            `${day.date}T12:00:00`,
-                          ).toLocaleDateString("en", {
-                            month: "long",
-                            day: "numeric",
-                            year: "numeric",
-                          });
-                          return (
-                            <button
-                              className={`github-day level-${Math.max(0, Math.min(4, day.level))}`}
-                              key={`${weekIndex}-${dayIndex}`}
-                              type="button"
-                              title={`${day.count} contributions on ${dateLabel}`}
-                              aria-label={`${day.count} contributions on ${dateLabel}`}
-                              aria-pressed={
-                                summaryContribution?.date === day.date
-                              }
-                              onMouseEnter={() => setActiveContribution(day)}
-                              onMouseLeave={() => setActiveContribution(null)}
-                              onFocus={() => setActiveContribution(day)}
-                              onBlur={() => setActiveContribution(null)}
-                              onClick={() => setActiveContribution(day)}
-                            />
-                          );
-                        }),
-                      )}
-                    </div>
-                  </div>
-                </div>
-              ) : (
-                <div className="github-empty-state" aria-live="polite">
-                  {activityLoading
-                    ? "Loading public contribution activity…"
-                    : "Contribution activity is unavailable right now."}
-                </div>
-              )}
-
-              <div className="github-calendar-summary">
-                <p aria-live="polite">
-                  {summaryContribution
-                    ? `${summaryContribution.count} contributions on ${new Date(`${summaryContribution.date}T12:00:00`).toLocaleDateString("en", { month: "long", day: "numeric", year: "numeric" })}`
-                    : activityError
-                      ? "Open GitHub to view public activity."
-                      : "Hover over a day to view contributions."}
-                </p>
-                <div
-                  className="github-legend"
-                  aria-label="Contribution intensity legend"
-                >
-                  <span>Less</span>
-                  {[0, 1, 2, 3, 4].map((level) => (
-                    <span
-                      className={`github-day level-${level}`}
-                      key={level}
-                      aria-hidden="true"
-                    />
-                  ))}
-                  <span>More</span>
-                </div>
-              </div>
-
-              <div className="github-panel-footer">
-                <p>
-                  {activityUpdatedAt
-                    ? `Checked · ${activityUpdatedAt.toLocaleDateString("en", { month: "long", day: "numeric", year: "numeric" })}`
-                    : "Public contribution activity"}
-                  <br />
-                  Public calendar via GitHub Contributions API. Updates may take
-                  an hour.
-                </p>
-                <button
-                  type="button"
-                  className="github-refresh"
-                  onClick={() => setActivityReload((value) => value + 1)}
-                  disabled={activityLoading}
-                >
-                  {activityLoading ? "Loading…" : "Refresh"}
-                </button>
-              </div>
             </div>
           </div>
         </section>
