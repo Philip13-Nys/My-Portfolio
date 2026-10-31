@@ -2352,4 +2352,15 @@ body {
   }
 }
 
-@media (max-width: 680px) { .header-wrap { width: calc(100% - 72px); } .menu-toggle { position: absolute; left: -30px; top: 50%; transform: translateY(-50%); padding: 4px; } }
+@media (max-width: 680px) {
+  .header-wrap {
+    width: calc(100% - 72px);
+  }
+  .menu-toggle {
+    position: absolute;
+    left: -30px;
+    top: 50%;
+    transform: translateY(-50%);
+    padding: 4px;
+  }
+}

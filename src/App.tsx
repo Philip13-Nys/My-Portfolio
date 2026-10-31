@@ -78,29 +78,42 @@ function App() {
     const form = new FormData(formElement);
     setEmailStatus("Sending your message…");
     try {
-      const response = await fetch(`https://formsubmit.co/ajax/${profile.email}`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
+      const response = await fetch(
+        `https://formsubmit.co/ajax/${profile.email}`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+          },
+          body: JSON.stringify({
+            name: form.get("name"),
+            email: form.get("email"),
+            _replyto: form.get("email"),
+            message: form.get("message"),
+            _subject: `Portfolio message from ${form.get("name")}`,
+            _template: "table",
+          }),
         },
-        body: JSON.stringify({
-          name: form.get("name"),
-          email: form.get("email"),
-          _replyto: form.get("email"),
-          message: form.get("message"),
-          _subject: `Portfolio message from ${form.get("name")}`,
-          _template: "table",
-        }),
-      });
+      );
       const result = await response.json();
-      if (!response.ok || result.success === false || result.success === "false") {
-        throw new Error(result.message || "The email service rejected the message.");
+      if (
+        !response.ok ||
+        result.success === false ||
+        result.success === "false"
+      ) {
+        throw new Error(
+          result.message || "The email service rejected the message.",
+        );
       }
-      setEmailStatus("Message submitted. If this is the first submission, check your inbox to activate delivery.");
+      setEmailStatus(
+        "Message submitted. If this is the first submission, check your inbox to activate delivery.",
+      );
       formElement.reset();
     } catch {
-      setEmailStatus("Couldn’t submit online. You can send it through your email app instead.");
+      setEmailStatus(
+        "Couldn’t submit online. You can send it through your email app instead.",
+      );
     }
   };
 
@@ -261,38 +274,48 @@ function App() {
                 <span>{previousProject.title}</span>
               </button>
               <article className="featured-project" key={project.number}>
-                <div className={`project-screen ${project.art} ${project.image ? 'has-image' : ''}`}>
-                  {project.image ? <img className="project-preview-image" src={project.image} alt={`${project.title} website preview`} /> : <>
-                  <div className="screen-top">
-                    <span className="screen-logo">[ PROJECT ]</span>
-                    <span>OVERVIEW &nbsp; ABOUT &nbsp; CONTACT</span>
-                    <span className="screen-dots">● ● ●</span>
-                  </div>
-                  <div className="screen-body">
-                    <div className="screen-copy">
-                      <PixelLabel>
-                        FEATURED PROJECT / {project.number}
-                      </PixelLabel>
-                      <b>{project.title}</b>
-                      <i />
-                      <i />
-                      <i />
-                      <span className="screen-cta">EXPLORE PROJECT ↗</span>
-                    </div>
-                    <div className="screen-visual">
-                      <div className="screen-shape shape-one" />
-                      <div className="screen-shape shape-two" />
-                      <div className="screen-shape shape-three" />
-                    </div>
-                  </div>
-                  <div className="screen-bottom">
-                    <span>{project.type}</span>
-                    <span>
-                      {String(activeProject + 1).padStart(2, "0")} —{" "}
-                      {String(projects.length).padStart(2, "0")}
-                    </span>
-                  </div>
-                  </>}
+                <div
+                  className={`project-screen ${project.art} ${project.image ? "has-image" : ""}`}
+                >
+                  {project.image ? (
+                    <img
+                      className="project-preview-image"
+                      src={project.image}
+                      alt={`${project.title} website preview`}
+                    />
+                  ) : (
+                    <>
+                      <div className="screen-top">
+                        <span className="screen-logo">[ PROJECT ]</span>
+                        <span>OVERVIEW &nbsp; ABOUT &nbsp; CONTACT</span>
+                        <span className="screen-dots">● ● ●</span>
+                      </div>
+                      <div className="screen-body">
+                        <div className="screen-copy">
+                          <PixelLabel>
+                            FEATURED PROJECT / {project.number}
+                          </PixelLabel>
+                          <b>{project.title}</b>
+                          <i />
+                          <i />
+                          <i />
+                          <span className="screen-cta">EXPLORE PROJECT ↗</span>
+                        </div>
+                        <div className="screen-visual">
+                          <div className="screen-shape shape-one" />
+                          <div className="screen-shape shape-two" />
+                          <div className="screen-shape shape-three" />
+                        </div>
+                      </div>
+                      <div className="screen-bottom">
+                        <span>{project.type}</span>
+                        <span>
+                          {String(activeProject + 1).padStart(2, "0")} —{" "}
+                          {String(projects.length).padStart(2, "0")}
+                        </span>
+                      </div>
+                    </>
+                  )}
                 </div>
                 <div className="featured-caption">
                   <div>
@@ -308,8 +331,12 @@ function App() {
                   <a
                     className="project-open"
                     href={project.href}
-                    target={project.href.startsWith('http') ? '_blank' : undefined}
-                    rel={project.href.startsWith('http') ? 'noreferrer' : undefined}
+                    target={
+                      project.href.startsWith("http") ? "_blank" : undefined
+                    }
+                    rel={
+                      project.href.startsWith("http") ? "noreferrer" : undefined
+                    }
                     aria-label={`Ask about ${project.title}`}
                   >
                     <ArrowUpRight size={18} />
@@ -486,22 +513,40 @@ function App() {
               note="A place for awards, certificates, and milestones. Details are placeholders until you share them."
             />
             <div className="awards-showcase">
-              <div
-                className="award-collage"
-                aria-label="Certificate previews"
-              >
-                {certifications.filter((cert) => cert.image).map((cert) => (
-                  <a className="award-collage-item" href={cert.image} target="_blank" rel="noreferrer" key={cert.title} aria-label={`View ${cert.title} certificate`}>
-                    <img src={cert.image} alt={`${cert.title} certificate preview`} />
-                  </a>
-                ))}
+              <div className="award-collage" aria-label="Certificate previews">
+                {certifications
+                  .filter((cert) => cert.image)
+                  .map((cert) => (
+                    <a
+                      className="award-collage-item"
+                      href={cert.image}
+                      target="_blank"
+                      rel="noreferrer"
+                      key={cert.title}
+                      aria-label={`View ${cert.title} certificate`}
+                    >
+                      <img
+                        src={cert.image}
+                        alt={`${cert.title} certificate preview`}
+                      />
+                    </a>
+                  ))}
               </div>
               <div className="awards-grid">
                 {certifications.map((cert, i) => (
                   <article className="award-card" key={i}>
                     {cert.image && (
-                      <a className="award-preview" href={cert.image} target="_blank" rel="noreferrer" aria-label={`View ${cert.title} certificate`}>
-                        <img src={cert.image} alt={`${cert.title} certificate`} />
+                      <a
+                        className="award-preview"
+                        href={cert.image}
+                        target="_blank"
+                        rel="noreferrer"
+                        aria-label={`View ${cert.title} certificate`}
+                      >
+                        <img
+                          src={cert.image}
+                          alt={`${cert.title} certificate`}
+                        />
                       </a>
                     )}
                     <div className="award-icon">
@@ -580,11 +625,14 @@ function App() {
               <PixelLabel>07 / RESUME</PixelLabel>
               <h2>My resume</h2>
               <p>
-                A quick overview of my education, skills, and experience will be available here.
+                A quick overview of my education, skills, and experience will be
+                available here.
               </p>
             </div>
             <div className="resume-placeholder" role="status">
-              <span className="resume-file-icon"><BriefcaseBusiness size={20} /></span>
+              <span className="resume-file-icon">
+                <BriefcaseBusiness size={20} />
+              </span>
               <div>
                 <strong>RESUME FILE</strong>
                 <small>[Add your resume PDF here]</small>
@@ -615,7 +663,14 @@ function App() {
                       ))}
                     </div>
                   </div>
-                  <a href={item.href} target={item.href.startsWith('http') ? '_blank' : undefined} rel={item.href.startsWith('http') ? 'noreferrer' : undefined} aria-label={`Open ${item.title}`}>
+                  <a
+                    href={item.href}
+                    target={item.href.startsWith("http") ? "_blank" : undefined}
+                    rel={
+                      item.href.startsWith("http") ? "noreferrer" : undefined
+                    }
+                    aria-label={`Open ${item.title}`}
+                  >
                     <ArrowUpRight size={17} />
                   </a>
                 </article>
@@ -668,19 +723,31 @@ function App() {
                 </span>
                 <ArrowUpRight size={13} />
               </a>
-              <a className="contact-card" href={profile.linkedin} target="_blank" rel="noreferrer">
+              <a
+                className="contact-card"
+                href={profile.linkedin}
+                target="_blank"
+                rel="noreferrer"
+              >
                 <Linkedin size={15} />
                 <span>
                   <small>LINKEDIN</small>
-                  <strong>{profile.linkedin.replace('https://www.', '')}</strong>
+                  <strong>
+                    {profile.linkedin.replace("https://www.", "")}
+                  </strong>
                 </span>
                 <ArrowUpRight size={13} />
               </a>
-              <a className="contact-card" href={profile.github} target="_blank" rel="noreferrer">
+              <a
+                className="contact-card"
+                href={profile.github}
+                target="_blank"
+                rel="noreferrer"
+              >
                 <Github size={15} />
                 <span>
                   <small>GITHUB</small>
-                  <strong>{profile.github.replace('https://', '')}</strong>
+                  <strong>{profile.github.replace("https://", "")}</strong>
                 </span>
                 <ArrowUpRight size={13} />
               </a>
@@ -705,14 +772,25 @@ function App() {
                   aria-label="Your message"
                   rows={3}
                 />
-                <button className="contact-button" type="submit" disabled={emailStatus === "Sending your message…"}>
+                <button
+                  className="contact-button"
+                  type="submit"
+                  disabled={emailStatus === "Sending your message…"}
+                >
                   <Mail size={14} />{" "}
-                  {emailStatus === "Sending your message…" ? "SENDING…" : "SEND A MESSAGE"}{" "}
+                  {emailStatus === "Sending your message…"
+                    ? "SENDING…"
+                    : "SEND A MESSAGE"}{" "}
                   <ArrowUpRight size={14} />
                 </button>
-                <small aria-live="polite">{emailStatus || "Your message will be emailed directly."}</small>
+                <small aria-live="polite">
+                  {emailStatus || "Your message will be emailed directly."}
+                </small>
                 {emailStatus.startsWith("Couldn’t submit") && (
-                  <a className="email-fallback" href={`mailto:${profile.email}`}>
+                  <a
+                    className="email-fallback"
+                    href={`mailto:${profile.email}`}
+                  >
                     Open email app <ArrowUpRight size={11} />
                   </a>
                 )}
