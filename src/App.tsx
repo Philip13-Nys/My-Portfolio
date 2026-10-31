@@ -779,7 +779,10 @@ function App() {
                                             ? "▤"
                                             : "⌘";
                       return (
-                        <li key={item} className={`skill-chip skill-${label.toLowerCase().replace(/[^a-z]+/g, "-")}`}>
+                        <li
+                          key={item}
+                          className={`skill-chip skill-${label.toLowerCase().replace(/[^a-z]+/g, "-")}`}
+                        >
                           <span className="skill-chip-icon" aria-hidden="true">
                             {icon}
                           </span>
@@ -905,7 +908,10 @@ function App() {
           </div>
         </section>
 
-        <section className="experience-section journey-training-section" id="experience">
+        <section
+          className="experience-section journey-training-section"
+          id="experience"
+        >
           <div className="section-rule" />
           <div className="content-wrap journey-training-wrap">
             <div className="journey-panel" data-reveal>
@@ -930,17 +936,24 @@ function App() {
               </div>
             </div>
 
-            <div className="journey-panel training-panel" id="education" data-reveal>
+            <div
+              className="journey-panel training-panel"
+              id="education"
+              data-reveal
+            >
               <div className="journey-panel-heading">
                 <span className="journey-panel-index">05</span>
                 <Code2 size={17} />
-                <h2>Training</h2>
+                <h2>Education Attainment</h2>
                 <span className="journey-heading-rule" />
               </div>
               <div className="journey-panel-card">
                 <div className="journey-timeline">
                   {education.map((item) => (
-                    <article className="journey-entry education-entry" key={item.level}>
+                    <article
+                      className="journey-entry education-entry"
+                      key={item.level}
+                    >
                       <span className="journey-marker" />
                       <span className="journey-date">{item.period}</span>
                       <h3>{item.level}</h3>
