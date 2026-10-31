@@ -489,7 +489,7 @@ function App() {
                 className="award-collage"
                 aria-label="Certificate previews"
               >
-                {certifications.filter((cert) => cert.image).map((cert, i) => (
+                {certifications.filter((cert) => cert.image).map((cert) => (
                   <a className="award-collage-item" href={cert.image} target="_blank" rel="noreferrer" key={cert.title} aria-label={`View ${cert.title} certificate`}>
                     <img src={cert.image} alt={`${cert.title} certificate preview`} />
                   </a>
