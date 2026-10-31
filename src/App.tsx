@@ -1,0 +1,743 @@
+import {
+  ArrowDown,
+  ArrowLeft,
+  ArrowRight,
+  ArrowUpRight,
+  Award,
+  BriefcaseBusiness,
+  Code2,
+  Mail,
+  Menu,
+  Moon,
+  Sun,
+  X,
+  Github,
+  Linkedin,
+} from "lucide-react";
+import { useEffect, useState } from "react";
+import {
+  certifications,
+  education,
+  experience,
+  profile,
+  projects,
+  skills,
+} from "./data";
+import profilePhoto from "./assets/philip-profile-cutout.png";
+
+const nav = [
+  ["Home", "#home"],
+  ["Work", "#projects"],
+  ["What I can do", "#skills"],
+  ["About", "#about"],
+  ["Awards", "#awards"],
+  ["Experience", "#experience"],
+  ["Resume", "#resume"],
+];
+
+function PixelLabel({ children }: { children: React.ReactNode }) {
+  return <span className="pixel-label">{children}</span>;
+}
+function SectionHead({
+  kicker,
+  title,
+  note,
+}: {
+  kicker: string;
+  title: React.ReactNode;
+  note?: string;
+}) {
+  return (
+    <div className="section-head" data-reveal>
+      <div>
+        <PixelLabel>{kicker}</PixelLabel>
+        <h2>{title}</h2>
+      </div>
+      {note && <p>{note}</p>}
+    </div>
+  );
+}
+
+function App() {
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [activeProject, setActiveProject] = useState(0);
+  const [peachMode, setPeachMode] = useState(false);
+  const [emailStatus, setEmailStatus] = useState("");
+  const project = projects[activeProject];
+  const previousProject =
+    projects[(activeProject + projects.length - 1) % projects.length];
+  const nextProject = projects[(activeProject + 1) % projects.length];
+  const moveProject = (direction: number) =>
+    setActiveProject(
+      (activeProject + direction + projects.length) % projects.length,
+    );
+  const heroName = profile.name.replace(/[\[\]]/g, "").toUpperCase();
+  const sendMessage = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const formElement = event.currentTarget;
+    const form = new FormData(formElement);
+    setEmailStatus("Sending your message…");
+    try {
+      const response = await fetch(`https://formsubmit.co/ajax/${profile.email}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify({
+          name: form.get("name"),
+          email: form.get("email"),
+          _replyto: form.get("email"),
+          message: form.get("message"),
+          _subject: `Portfolio message from ${form.get("name")}`,
+          _template: "table",
+        }),
+      });
+      const result = await response.json();
+      if (!response.ok || result.success === false || result.success === "false") {
+        throw new Error(result.message || "The email service rejected the message.");
+      }
+      setEmailStatus("Message submitted. If this is the first submission, check your inbox to activate delivery.");
+      formElement.reset();
+    } catch {
+      setEmailStatus("Couldn’t submit online. You can send it through your email app instead.");
+    }
+  };
+
+  useEffect(() => {
+    const revealItems = Array.from(
+      document.querySelectorAll<HTMLElement>(
+        "[data-reveal], .skills-layout, .about-profile, .awards-grid, .awards-showcase, .education-strip, .training-row, .experience-list, .technical-list, .beyond-wrap, .contact-wrap",
+      ),
+    );
+    const reducedMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)",
+    ).matches;
+    if (reducedMotion || !("IntersectionObserver" in window)) {
+      revealItems.forEach((item) => item.classList.add("is-visible"));
+      return;
+    }
+    document.documentElement.classList.add("js-reveal");
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("is-visible");
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.12, rootMargin: "0px 0px -36px 0px" },
+    );
+    revealItems.forEach((item) => observer.observe(item));
+    return () => {
+      observer.disconnect();
+      document.documentElement.classList.remove("js-reveal");
+    };
+  }, []);
+
+  return (
+    <div className={peachMode ? "site-shell peach-mode" : "site-shell"}>
+      <header className="header-wrap">
+        <a className="brand" href="#home">
+          <span className="brand-icon">
+            {profile.name
+              .replace(/[\[\]]/g, "")
+              .trim()
+              .charAt(0) || "P"}
+          </span>
+          <span>{profile.name}</span>
+        </a>
+        <nav
+          className={menuOpen ? "main-nav open" : "main-nav"}
+          aria-label="Main navigation"
+        >
+          {nav.map(([label, href]) => (
+            <a key={href} href={href} onClick={() => setMenuOpen(false)}>
+              {label}
+            </a>
+          ))}
+        </nav>
+        <div className="header-actions">
+          <button
+            className="theme-toggle"
+            onClick={() => setPeachMode(!peachMode)}
+            aria-label={
+              peachMode ? "Switch to inkberry theme" : "Switch to peach theme"
+            }
+          >
+            {peachMode ? <Moon size={15} /> : <Sun size={15} />}
+          </button>
+          <a className="hire-button" href="#contact">
+            HIRE ME <ArrowUpRight size={13} />
+          </a>
+        </div>
+        <button
+          className="menu-toggle"
+          aria-label={menuOpen ? "Close navigation" : "Open navigation"}
+          aria-expanded={menuOpen}
+          onClick={() => setMenuOpen(!menuOpen)}
+        >
+          {menuOpen ? <X /> : <Menu />}
+        </button>
+      </header>
+
+      <main>
+        <section className="hero" id="home">
+          <div className="hero-background-grid" />
+          <div className="hero-outline-name" aria-hidden="true">
+            <div className="hero-name-track">
+              <span>{heroName}</span>
+              <span>{heroName}</span>
+            </div>
+          </div>
+          <div className="hero-caption" data-reveal>
+            <PixelLabel>PORTFOLIO / DEV</PixelLabel>
+            <span>DESIGN · CODE · CURIOSITY</span>
+          </div>
+          <div className="portrait-stage" data-reveal>
+            <div className="portrait-glow" />
+            <img
+              className="portrait-photo"
+              src={profilePhoto}
+              alt={`Portrait of ${profile.name}`}
+            />
+            <div className="portrait-note">PHILIP / WEB DEVELOPER</div>
+            <span className="hero-cross cross-a" />
+            <span className="hero-cross cross-b" />
+          </div>
+          <div className="hero-bottom" data-reveal>
+            <div className="hero-person">
+              <span className="hero-person-number">01</span>
+              <div>
+                <strong>{profile.name}</strong>
+                <span>{profile.role}</span>
+              </div>
+            </div>
+            <p>{profile.intro}</p>
+            <a href="#projects" className="scroll-link">
+              SCROLL TO EXPLORE <ArrowDown size={13} />
+            </a>
+          </div>
+        </section>
+
+        <section className="work-section" id="projects">
+          <div className="section-rule" />
+          <div className="content-wrap work-wrap">
+            <div data-reveal>
+              <SectionHead
+                kicker="01 / SELECTED PROJECTS"
+                title="Work Gallery"
+                note="A selection of things I’ve worked on, learned from, or made for fun."
+              />
+            </div>
+            <div className="gallery-frame" data-reveal>
+              <button
+                className="gallery-arrow gallery-prev"
+                onClick={() => moveProject(-1)}
+                aria-label="Previous project"
+              >
+                <ArrowLeft size={17} />
+              </button>
+              <button
+                className="gallery-arrow gallery-next"
+                onClick={() => moveProject(1)}
+                aria-label="Next project"
+              >
+                <ArrowRight size={17} />
+              </button>
+              <button
+                className="side-project side-left"
+                onClick={() => moveProject(-1)}
+                aria-label={`Show ${previousProject.title}`}
+              >
+                <span className="mini-site mini-left">
+                  <i />
+                  <i />
+                  <i />
+                  <b />
+                </span>
+                <span>{previousProject.title}</span>
+              </button>
+              <article className="featured-project" key={project.number}>
+                <div className={`project-screen ${project.art} ${project.image ? 'has-image' : ''}`}>
+                  {project.image ? <img className="project-preview-image" src={project.image} alt={`${project.title} website preview`} /> : <>
+                  <div className="screen-top">
+                    <span className="screen-logo">[ PROJECT ]</span>
+                    <span>OVERVIEW &nbsp; ABOUT &nbsp; CONTACT</span>
+                    <span className="screen-dots">● ● ●</span>
+                  </div>
+                  <div className="screen-body">
+                    <div className="screen-copy">
+                      <PixelLabel>
+                        FEATURED PROJECT / {project.number}
+                      </PixelLabel>
+                      <b>{project.title}</b>
+                      <i />
+                      <i />
+                      <i />
+                      <span className="screen-cta">EXPLORE PROJECT ↗</span>
+                    </div>
+                    <div className="screen-visual">
+                      <div className="screen-shape shape-one" />
+                      <div className="screen-shape shape-two" />
+                      <div className="screen-shape shape-three" />
+                    </div>
+                  </div>
+                  <div className="screen-bottom">
+                    <span>{project.type}</span>
+                    <span>
+                      {String(activeProject + 1).padStart(2, "0")} —{" "}
+                      {String(projects.length).padStart(2, "0")}
+                    </span>
+                  </div>
+                  </>}
+                </div>
+                <div className="featured-caption">
+                  <div>
+                    <span className="project-type">{project.type}</span>
+                    <h3>{project.title}</h3>
+                    <p>{project.description}</p>
+                    <div className="project-tags">
+                      {project.tags.map((tag) => (
+                        <span key={tag}>{tag}</span>
+                      ))}
+                    </div>
+                  </div>
+                  <a
+                    className="project-open"
+                    href={project.href}
+                    target={project.href.startsWith('http') ? '_blank' : undefined}
+                    rel={project.href.startsWith('http') ? 'noreferrer' : undefined}
+                    aria-label={`Ask about ${project.title}`}
+                  >
+                    <ArrowUpRight size={18} />
+                  </a>
+                </div>
+              </article>
+              <button
+                className="side-project side-right"
+                onClick={() => moveProject(1)}
+                aria-label={`Show ${nextProject.title}`}
+              >
+                <span className="mini-site mini-right">
+                  <i />
+                  <i />
+                  <i />
+                  <b />
+                </span>
+                <span>{nextProject.title}</span>
+              </button>
+            </div>
+            <div className="gallery-footer">
+              <div
+                className="gallery-dots"
+                aria-label={`Project ${activeProject + 1} of ${projects.length}`}
+              >
+                {projects.map((item, i) => (
+                  <button
+                    key={item.number}
+                    className={i === activeProject ? "active" : ""}
+                    onClick={() => setActiveProject(i)}
+                    aria-label={`Show project ${i + 1}`}
+                  />
+                ))}
+              </div>
+              <span>
+                {String(activeProject + 1).padStart(2, "0")} <i />{" "}
+                {String(projects.length).padStart(2, "0")} &nbsp; / &nbsp;
+                PROJECTS
+              </span>
+              <span>PERSONAL WORK · LEARNING · EXPERIMENTATION</span>
+            </div>
+          </div>
+        </section>
+
+        <section className="skills-section" id="skills">
+          <div className="section-rule" />
+          <div className="content-wrap skills-wrap">
+            <SectionHead
+              kicker="02 / MY TOOLKIT"
+              title="What I can do"
+              note="Skills I’m building through study, practice, and hands-on projects."
+            />
+            <div className="skills-layout">
+              <div className="skill-orbit">
+                <span className="orbit-title">
+                  CURRENTLY
+                  <br />
+                  LEARNING
+                </span>
+                {skills
+                  .flatMap((s) => s.items)
+                  .slice(0, 9)
+                  .map((item, i) => (
+                    <span
+                      className={`skill-glyph glyph-${i + 1}`}
+                      key={item}
+                      title={item}
+                    >
+                      {i === 0 ? (
+                        <Code2 size={16} />
+                      ) : i === 1 ? (
+                        <span>F</span>
+                      ) : i === 2 ? (
+                        <span>JS</span>
+                      ) : i === 3 ? (
+                        <span>UI</span>
+                      ) : i === 4 ? (
+                        <span>R</span>
+                      ) : i === 5 ? (
+                        <span>G</span>
+                      ) : i === 6 ? (
+                        <span>CSS</span>
+                      ) : i === 7 ? (
+                        <span>TS</span>
+                      ) : (
+                        <span>✦</span>
+                      )}
+                    </span>
+                  ))}
+              </div>
+              <div className="skill-groups">
+                {skills.map((group, i) => (
+                  <article className="skill-group" key={group.category}>
+                    <span className="skill-number">0{i + 1}</span>
+                    <div>
+                      <h3>{group.category.toLowerCase()}</h3>
+                      <p>
+                        {i === 0
+                          ? "Turning ideas into clear, considered interfaces."
+                          : i === 1
+                            ? "Building practical things for the web."
+                            : "Tools I use to learn, make, and collaborate."}
+                      </p>
+                      <ul>
+                        {group.items.map((item) => (
+                          <li key={item}>
+                            {item}
+                            <ArrowUpRight size={11} />
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  </article>
+                ))}
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section className="about-section" id="about">
+          <div className="section-rule" />
+          <div className="content-wrap about-wrap">
+            <SectionHead
+              kicker="03 / A LITTLE ABOUT ME"
+              title={
+                <>
+                  Problem Solver.
+                  <br />
+                  <span>Web Developer.</span>
+                </>
+              }
+              note="A curious mind with an interest in technology, gaming, and building useful digital experiences."
+            />
+            <div className="about-profile">
+              <div className="about-avatar">
+                <img src={profilePhoto} alt={`Portrait of ${profile.name}`} />
+              </div>
+              <div className="about-details">
+                <div className="about-facts">
+                  <div>
+                    <span>NAME</span>
+                    <strong>{profile.name}</strong>
+                  </div>
+                  <div>
+                    <span>FOCUS</span>
+                    <strong>{profile.role}</strong>
+                  </div>
+                  <div>
+                    <span>LOCATION</span>
+                    <strong>{profile.location}</strong>
+                  </div>
+                </div>
+                <div className="about-bio">
+                  <p>{profile.about}</p>
+                  <p>
+                    I enjoy learning how things work, finding a thoughtful way
+                    to bring an idea to life, and sharing what I make.
+                  </p>
+                  <a href="#contact">
+                    MORE ABOUT ME <ArrowUpRight size={12} />
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section className="awards-section" id="awards">
+          <div className="section-rule" />
+          <div className="content-wrap awards-wrap">
+            <SectionHead
+              kicker="04 / RECOGNITION"
+              title="Awards & Achievements"
+              note="A place for awards, certificates, and milestones. Details are placeholders until you share them."
+            />
+            <div className="awards-showcase">
+              <div
+                className="award-collage"
+                aria-label="Certificate previews"
+              >
+                {certifications.filter((cert) => cert.image).map((cert, i) => (
+                  <a className="award-collage-item" href={cert.image} target="_blank" rel="noreferrer" key={cert.title} aria-label={`View ${cert.title} certificate`}>
+                    <img src={cert.image} alt={`${cert.title} certificate preview`} />
+                  </a>
+                ))}
+              </div>
+              <div className="awards-grid">
+                {certifications.map((cert, i) => (
+                  <article className="award-card" key={i}>
+                    {cert.image && (
+                      <a className="award-preview" href={cert.image} target="_blank" rel="noreferrer" aria-label={`View ${cert.title} certificate`}>
+                        <img src={cert.image} alt={`${cert.title} certificate`} />
+                      </a>
+                    )}
+                    <div className="award-icon">
+                      <Award size={19} />
+                    </div>
+                    <div className="award-copy">
+                      <span>
+                        ACHIEVEMENT / {String(i + 1).padStart(2, "0")}
+                      </span>
+                      <h3>{cert.title}</h3>
+                      <p>
+                        {cert.issuer} <i /> {cert.year}
+                      </p>
+                    </div>
+                    <ArrowUpRight className="award-arrow" size={15} />
+                  </article>
+                ))}
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section className="training-section" id="training">
+          <div className="section-rule" />
+          <div className="content-wrap awards-wrap">
+            <SectionHead
+              kicker="05 / LEARNING IN PUBLIC"
+              title="Trainings & Hackathons"
+              note="Courses, events, and education details can be added here when available."
+            />
+            <div className="training-row">
+              <div className="training-copy">
+                <PixelLabel>EDUCATION / 01</PixelLabel>
+                <h3>{education[0].program}</h3>
+                <p>
+                  {education[0].school} · {education[0].period}
+                </p>
+                <p>{education[0].note}</p>
+              </div>
+              <div className="training-preview">
+                CERTIFICATE / EVENT PREVIEW
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section className="experience-section" id="experience">
+          <div className="section-rule" />
+          <div className="content-wrap experience-wrap">
+            <SectionHead
+              kicker="06 / WHERE I’VE BEEN"
+              title="Experience"
+              note="Professional, community, and personal experience — shared with room to grow."
+            />
+            <div className="experience-list">
+              {experience.map((item, i) => (
+                <article className="experience-item" key={i}>
+                  <span className="experience-number">0{i + 1}</span>
+                  <span className="experience-date">{item.period}</span>
+                  <div>
+                    <h3>{item.role}</h3>
+                    <strong>{item.organization}</strong>
+                    <p>{item.detail}</p>
+                  </div>
+                  <BriefcaseBusiness size={16} />
+                </article>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section className="resume-section" id="resume">
+          <div className="section-rule" />
+          <div className="content-wrap resume-wrap">
+            <div className="resume-copy">
+              <PixelLabel>07 / RESUME</PixelLabel>
+              <h2>My resume</h2>
+              <p>
+                A quick overview of my education, skills, and experience will be available here.
+              </p>
+            </div>
+            <div className="resume-placeholder" role="status">
+              <span className="resume-file-icon"><BriefcaseBusiness size={20} /></span>
+              <div>
+                <strong>RESUME FILE</strong>
+                <small>[Add your resume PDF here]</small>
+              </div>
+              <span className="resume-status">COMING SOON</span>
+            </div>
+          </div>
+        </section>
+
+        <section className="technical-section" id="technical">
+          <div className="section-rule" />
+          <div className="content-wrap experience-wrap">
+            <SectionHead
+              kicker="07 / SELECTED WORK"
+              title="Technical Projects"
+              note="A concise index of projects, tools, and experiments."
+            />
+            <div className="technical-list">
+              {projects.map((item, i) => (
+                <article key={item.number}>
+                  <span>{String(i + 1).padStart(2, "0")}</span>
+                  <div>
+                    <h3>{item.title}</h3>
+                    <p>{item.description}</p>
+                    <div className="project-tags">
+                      {item.tags.map((tag) => (
+                        <span key={tag}>{tag}</span>
+                      ))}
+                    </div>
+                  </div>
+                  <a href={item.href} target={item.href.startsWith('http') ? '_blank' : undefined} rel={item.href.startsWith('http') ? 'noreferrer' : undefined} aria-label={`Open ${item.title}`}>
+                    <ArrowUpRight size={17} />
+                  </a>
+                </article>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section className="beyond-section" id="beyond">
+          <div className="section-rule" />
+          <div className="content-wrap beyond-wrap">
+            <div>
+              <PixelLabel>08 / OFF THE SCREEN</PixelLabel>
+              <h2>Beyond Code</h2>
+              <p>
+                Gaming, technology, and the curiosity that keeps me learning.
+              </p>
+            </div>
+            <div className="beyond-strip">
+              <span>GAMING</span>
+              <span>TECHNOLOGY</span>
+              <span>CREATIVE WORK</span>
+            </div>
+          </div>
+        </section>
+
+        <section className="contact-section" id="contact">
+          <div className="section-rule" />
+          <div className="content-wrap contact-wrap">
+            <div className="contact-intro">
+              <PixelLabel>09 / GET IN TOUCH</PixelLabel>
+              <h2>
+                LET’S
+                <br />
+                WORK
+                <br />
+                TOGETHER
+              </h2>
+              <p>
+                Looking for the next problem worth solving? Tell me a little
+                about it.
+              </p>
+            </div>
+            <div className="contact-details">
+              <a className="contact-card" href={`mailto:${profile.email}`}>
+                <Mail size={15} />
+                <span>
+                  <small>EMAIL</small>
+                  <strong>{profile.email}</strong>
+                </span>
+                <ArrowUpRight size={13} />
+              </a>
+              <a className="contact-card" href={profile.linkedin} target="_blank" rel="noreferrer">
+                <Linkedin size={15} />
+                <span>
+                  <small>LINKEDIN</small>
+                  <strong>{profile.linkedin.replace('https://www.', '')}</strong>
+                </span>
+                <ArrowUpRight size={13} />
+              </a>
+              <a className="contact-card" href={profile.github} target="_blank" rel="noreferrer">
+                <Github size={15} />
+                <span>
+                  <small>GITHUB</small>
+                  <strong>{profile.github.replace('https://', '')}</strong>
+                </span>
+                <ArrowUpRight size={13} />
+              </a>
+              <form className="contact-form" onSubmit={sendMessage}>
+                <input
+                  name="name"
+                  required
+                  placeholder="Your name"
+                  aria-label="Your name"
+                />
+                <input
+                  name="email"
+                  required
+                  type="email"
+                  placeholder="Your email"
+                  aria-label="Your email"
+                />
+                <textarea
+                  name="message"
+                  required
+                  placeholder="Your message"
+                  aria-label="Your message"
+                  rows={3}
+                />
+                <button className="contact-button" type="submit" disabled={emailStatus === "Sending your message…"}>
+                  <Mail size={14} />{" "}
+                  {emailStatus === "Sending your message…" ? "SENDING…" : "SEND A MESSAGE"}{" "}
+                  <ArrowUpRight size={14} />
+                </button>
+                <small aria-live="polite">{emailStatus || "Your message will be emailed directly."}</small>
+                {emailStatus.startsWith("Couldn’t submit") && (
+                  <a className="email-fallback" href={`mailto:${profile.email}`}>
+                    Open email app <ArrowUpRight size={11} />
+                  </a>
+                )}
+              </form>
+            </div>
+          </div>
+        </section>
+      </main>
+
+      <footer className="footer">
+        <div className="content-wrap footer-inner">
+          <a className="brand" href="#home">
+            <span className="brand-icon">
+              {profile.name
+                .replace(/[\[\]]/g, "")
+                .trim()
+                .charAt(0) || "P"}
+            </span>
+            {profile.name}
+          </a>
+          <span>MADE WITH CURIOSITY · PLAYER ONE</span>
+          <a href="#home">BACK TO TOP ↑</a>
+        </div>
+      </footer>
+    </div>
+  );
+}
+
+export default App;
