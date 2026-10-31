@@ -2675,7 +2675,7 @@ video {
 @media (max-width: 680px) {
   .side-project {
     display: grid;
-    width: 34%;
+    width: 14%;
     top: 30px;
     gap: 7px;
   }
@@ -2699,9 +2699,6 @@ video {
   }
 
   .side-project > span:last-child {
-    overflow: hidden;
-    font-size: 7px;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+    display: none;
   }
 }
