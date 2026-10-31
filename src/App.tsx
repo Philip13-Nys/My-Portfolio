@@ -944,7 +944,7 @@ function App() {
               <div className="journey-panel-heading">
                 <span className="journey-panel-index">05</span>
                 <Code2 size={17} />
-                <h2>Education Attainment</h2>
+                <h2>Educational Attainment</h2>
                 <span className="journey-heading-rule" />
               </div>
               <div className="journey-panel-card">
