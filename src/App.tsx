@@ -238,7 +238,7 @@ function App() {
               <span>Welcome to my</span>
               <strong>Portfolio Website</strong>
             </h1>
-            <p className="startup-status">Preparing your portfolio...</p>
+
             <div className="startup-track" aria-hidden="true">
               <span style={{ width: `${startupProgress}%` }} />
             </div>
