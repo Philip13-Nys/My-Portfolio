@@ -905,45 +905,50 @@ function App() {
           </div>
         </section>
 
-        <section className="training-section" id="training">
+        <section className="experience-section journey-training-section" id="experience">
           <div className="section-rule" />
-          <div className="content-wrap awards-wrap">
-            <SectionHead
-              kicker="05 / EDUCATION"
-              title="Educational Attainment"
-            />
-            <div className="education-list" data-reveal>
-              {education.map((item, index) => (
-                <article className="education-item" key={item.level}>
-                  <span className="education-index">0{index + 1}</span>
-                  <div>
-                    <span className="education-level">{item.level}</span>
-                    <h3>{item.school}</h3>
-                  </div>
-                  <span className="education-period">{item.period}</span>
-                </article>
-              ))}
+          <div className="content-wrap journey-training-wrap">
+            <div className="journey-panel" data-reveal>
+              <div className="journey-panel-heading">
+                <span className="journey-panel-index">04</span>
+                <BriefcaseBusiness size={16} />
+                <h2>Journey</h2>
+                <span className="journey-heading-rule" />
+              </div>
+              <div className="journey-panel-card">
+                <div className="journey-timeline">
+                  {experience.map((item, index) => (
+                    <article className="journey-entry" key={index}>
+                      <span className="journey-marker" />
+                      <span className="journey-date">{item.period}</span>
+                      <h3>{item.role}</h3>
+                      <strong>{item.organization}</strong>
+                      <p>{item.detail}</p>
+                    </article>
+                  ))}
+                </div>
+              </div>
             </div>
-          </div>
-        </section>
 
-        <section className="experience-section" id="experience">
-          <div className="section-rule" />
-          <div className="content-wrap experience-wrap">
-            <SectionHead kicker="06 / WHERE I’VE BEEN" title="Experience" />
-            <div className="experience-list">
-              {experience.map((item, i) => (
-                <article className="experience-item" key={i}>
-                  <span className="experience-number">0{i + 1}</span>
-                  <span className="experience-date">{item.period}</span>
-                  <div>
-                    <h3>{item.role}</h3>
-                    <strong>{item.organization}</strong>
-                    <p>{item.detail}</p>
-                  </div>
-                  <BriefcaseBusiness size={16} />
-                </article>
-              ))}
+            <div className="journey-panel training-panel" id="education" data-reveal>
+              <div className="journey-panel-heading">
+                <span className="journey-panel-index">05</span>
+                <Code2 size={17} />
+                <h2>Training</h2>
+                <span className="journey-heading-rule" />
+              </div>
+              <div className="journey-panel-card">
+                <div className="journey-timeline">
+                  {education.map((item) => (
+                    <article className="journey-entry education-entry" key={item.level}>
+                      <span className="journey-marker" />
+                      <span className="journey-date">{item.period}</span>
+                      <h3>{item.level}</h3>
+                      <strong>{item.school}</strong>
+                    </article>
+                  ))}
+                </div>
+              </div>
             </div>
           </div>
         </section>
@@ -952,7 +957,7 @@ function App() {
           <div className="section-rule" />
           <div className="content-wrap resume-wrap">
             <div className="resume-copy">
-              <PixelLabel>07 / Documents</PixelLabel>
+              <PixelLabel>08 / Documents</PixelLabel>
               <h2>My Documents</h2>
               <p>
                 A quick overview of my education, skills, and experience will be
@@ -993,7 +998,7 @@ function App() {
           <div className="section-rule" />
           <div className="content-wrap experience-wrap">
             <SectionHead
-              kicker="07 / SELECTED WORK"
+              kicker="09 / SELECTED WORK"
               title="Technical Projects"
             />
             <div className="technical-list">
@@ -1029,7 +1034,7 @@ function App() {
           <div className="section-rule" />
           <div className="content-wrap beyond-wrap">
             <div>
-              <PixelLabel>08 / OFF THE SCREEN</PixelLabel>
+              <PixelLabel>10 / OFF THE SCREEN</PixelLabel>
               <h2>Beyond Code</h2>
               <p>
                 Gaming, technology, and the curiosity that keeps me learning.
@@ -1047,7 +1052,7 @@ function App() {
           <div className="section-rule" />
           <div className="content-wrap contact-wrap">
             <div className="contact-intro">
-              <PixelLabel>10 / GET IN TOUCH</PixelLabel>
+              <PixelLabel>11 / GET IN TOUCH</PixelLabel>
               <h2>
                 LET’S
                 <br />

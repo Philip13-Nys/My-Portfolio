@@ -1144,6 +1144,121 @@ button {
 .experience-section {
   background: var(--panel);
 }
+.journey-training-wrap {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-items: start;
+  gap: clamp(18px, 2.4vw, 36px);
+  padding-block: clamp(38px, 5vw, 66px);
+}
+.journey-panel {
+  min-width: 0;
+}
+.journey-panel-heading {
+  min-height: 42px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+.journey-panel-index {
+  width: 38px;
+  height: 31px;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--line);
+  color: var(--muted);
+  font: 7px "Press Start 2P", "Poppins", sans-serif;
+}
+.journey-panel-heading > svg {
+  flex: none;
+  color: var(--accent);
+}
+.journey-panel-heading h2 {
+  flex: none;
+  margin: 0;
+  font: 11px "Press Start 2P", "Poppins", sans-serif;
+  color: var(--text);
+}
+.journey-heading-rule {
+  flex: 1;
+  height: 1px;
+  margin-left: 4px;
+  background: var(--line);
+}
+.journey-panel-card {
+  min-height: 225px;
+  padding: clamp(18px, 2.5vw, 38px);
+  border: 1px solid var(--line);
+  background: var(--panel-raised);
+  box-shadow: 4px 4px 0 color-mix(in srgb, var(--text) 5%, transparent);
+}
+.journey-timeline {
+  position: relative;
+  display: grid;
+  gap: 22px;
+  padding-left: 22px;
+}
+.journey-timeline::before {
+  position: absolute;
+  top: 7px;
+  bottom: 8px;
+  left: 5px;
+  width: 1px;
+  background: var(--line);
+  content: "";
+}
+.journey-entry {
+  position: relative;
+  min-width: 0;
+  display: grid;
+  gap: 5px;
+}
+.journey-marker {
+  position: absolute;
+  top: 3px;
+  left: -27px;
+  width: 12px;
+  height: 12px;
+  background: var(--accent);
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--accent) 12%, var(--panel-raised));
+}
+.journey-date {
+  color: var(--accent);
+  font: 6px/1.6 "Press Start 2P", "Poppins", sans-serif;
+}
+.journey-entry h3 {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.45;
+}
+.journey-entry strong {
+  color: var(--text);
+  font-size: 10px;
+  font-weight: 500;
+  line-height: 1.6;
+}
+.journey-entry p {
+  margin: 5px 0 0;
+  color: var(--muted);
+  font-size: 10px;
+  line-height: 1.7;
+}
+.education-entry {
+  gap: 5px;
+}
+.education-entry h3 {
+  font-size: 14px;
+}
+@media (max-width: 760px) {
+  .journey-training-wrap {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 28px;
+  }
+  .journey-panel-card {
+    min-height: auto;
+  }
+}
 .experience-item {
   display: grid;
   grid-template-columns: 37px 110px 1fr 18px;
