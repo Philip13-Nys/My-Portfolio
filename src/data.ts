@@ -1,6 +1,7 @@
 import virtualityPreview from "./assets/virtuality-preview.png";
 import oracleCertificate from "./assets/oracle-java-fundamentals.png";
 import sapCertificate from "./assets/sap-global-bike-participation.png";
+import divingResortPreview from "./assets/diving-resort-preview.png";
 
 export const profile = {
   name: "Philip Miguel",
@@ -54,13 +55,14 @@ export const projects = [
   },
   {
     number: "02",
-    title: "[Project name]",
-    type: "[Coursework · Team project · Experiment]",
+    title: "Sabang Beach and Diving Resort",
+    type: "Resort booking website",
     description:
-      "[Share your contribution and what you learned. Replace this card with a real project when ready.]",
-    tags: ["[TypeScript]", "[CSS]"],
-    href: "#contact",
+      "A resort booking experience with stay dates, an availability calendar, guest selection, and a room booking flow.",
+    tags: ["Resort booking", "[Add technologies]"],
+    href: "https://diving-resort.web.app/",
     art: "lavender",
+    image: divingResortPreview,
   },
   {
     number: "03",
