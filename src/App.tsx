@@ -1,7 +1,7 @@
 import {
-  ArrowDown,
   ArrowLeft,
   ArrowRight,
+  ArrowDown,
   ArrowUpRight,
   Award,
   BriefcaseBusiness,
@@ -642,7 +642,7 @@ function App() {
           <div className="section-rule" />
           <div className="content-wrap resume-wrap">
             <div className="resume-copy">
-              <PixelLabel>07 / RESUME</PixelLabel>
+              <PixelLabel>07 / Documents</PixelLabel>
               <h2>My resume</h2>
               <p>
                 A quick overview of my education, skills, and experience will be
