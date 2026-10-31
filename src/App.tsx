@@ -125,7 +125,7 @@ function App() {
       if (cancelled) return;
       setStartupProgress(100);
       setStartupLeaving(true);
-      fadeTimer = window.setTimeout(() => setShowStartup(false), 480);
+      fadeTimer = window.setTimeout(() => setShowStartup(false), 720);
     });
 
     return () => {

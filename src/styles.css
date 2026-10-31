@@ -3197,9 +3197,8 @@ video {
   color: var(--text);
   opacity: 1;
   visibility: visible;
-  transition:
-    opacity 480ms ease,
-    visibility 480ms ease;
+  transform: translateY(0);
+  transition: transform 700ms cubic-bezier(0.76, 0, 0.24, 1);
 }
 
 .startup-screen::before {
@@ -3220,8 +3219,7 @@ video {
 }
 
 .startup-screen.is-leaving {
-  opacity: 0;
-  visibility: hidden;
+  transform: translateY(-100%);
   pointer-events: none;
 }
 
@@ -3374,6 +3372,9 @@ video {
   .startup-content h1 strong,
   .startup-track span {
     animation: none;
+    transition-duration: 0.01ms;
+  }
+  .startup-screen.is-leaving {
     transition-duration: 0.01ms;
   }
 }
