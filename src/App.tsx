@@ -32,7 +32,7 @@ const nav = [
   ["About", "#about"],
   ["Awards", "#awards"],
   ["Experience", "#experience"],
-  ["Resume", "#resume"],
+  ["Documents", "#Documents"],
 ];
 
 function PixelLabel({ children }: { children: React.ReactNode }) {
@@ -638,7 +638,7 @@ function App() {
           </div>
         </section>
 
-        <section className="resume-section" id="resume">
+        <section className="resume-section" id="Documents">
           <div className="section-rule" />
           <div className="content-wrap resume-wrap">
             <div className="resume-copy">
