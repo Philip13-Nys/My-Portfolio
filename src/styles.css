@@ -2536,3 +2536,131 @@ video {
     bottom: 10px;
   }
 }
+
+@media (max-width: 980px) {
+  .section-head {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(220px, 0.8fr);
+    align-items: end;
+    gap: 16px 24px;
+  }
+
+  .section-head > p {
+    max-width: none;
+    font-size: 11px;
+    line-height: 1.65;
+  }
+}
+
+@media (max-width: 760px) {
+  .section-head {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 8px;
+  }
+
+  .awards-showcase,
+  .training-row {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .contact-wrap {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+@media (max-width: 680px) {
+  .pixel-label,
+  .hero-caption > span:last-child,
+  .hero-person-number,
+  .hero-person > div span,
+  .scroll-link,
+  .project-type,
+  .gallery-footer,
+  .skill-group p,
+  .skill-group li,
+  .about-facts > div span,
+  .about-bio a,
+  .award-copy > span,
+  .award-copy p,
+  .training-preview,
+  .experience-date,
+  .resume-placeholder strong,
+  .resume-status,
+  .technical-list article > span,
+  .beyond-strip span,
+  .contact-card small,
+  .contact-form > small,
+  .footer-inner > span,
+  .footer-inner > a:last-child {
+    font-size: 9px;
+  }
+
+  .section-head > p,
+  .hero-bottom p,
+  .featured-caption p,
+  .skill-group p,
+  .about-bio p,
+  .training-copy p,
+  .experience-item p,
+  .resume-copy p,
+  .beyond-wrap p,
+  .contact-intro p {
+    font-size: 12px;
+    line-height: 1.65;
+  }
+
+  .featured-caption h3,
+  .experience-item h3 {
+    font-size: 14px;
+  }
+
+  .skill-group h3 {
+    font-size: 16px;
+  }
+
+  .skill-group li {
+    padding: 6px 7px;
+  }
+
+  .about-facts strong,
+  .award-copy p,
+  .resume-placeholder small,
+  .contact-card strong,
+  .contact-form input,
+  .contact-form textarea {
+    font-size: 11px;
+  }
+
+  .award-copy h3,
+  .technical-list h3 {
+    font-size: 14px;
+  }
+
+  .training-copy h3 {
+    font-size: 17px;
+  }
+
+  .experience-item strong,
+  .technical-list p {
+    font-size: 11px;
+  }
+
+  .resume-placeholder strong,
+  .resume-status,
+  .contact-card small,
+  .contact-form > small {
+    font-size: 9px;
+  }
+
+  .project-tags span {
+    font-size: 8px;
+  }
+
+  .contact-form .contact-button {
+    font-size: 9px;
+  }
+
+  .footer-inner .brand {
+    font-size: 9px;
+  }
+}
