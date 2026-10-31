@@ -72,111 +72,6 @@ function SectionHead({
   );
 }
 
-function CustomCursor() {
-  useEffect(() => {
-    const pointerQuery = window.matchMedia(
-      "(hover: hover) and (pointer: fine)",
-    );
-    if (!pointerQuery.matches) return;
-
-    const cursor = document.querySelector<HTMLElement>(".custom-cursor");
-    const ring = document.querySelector<HTMLElement>(".custom-cursor-ring");
-    const dot = document.querySelector<HTMLElement>(".custom-cursor-dot");
-    if (!cursor || !ring || !dot) return;
-
-    const reducedMotion = window.matchMedia(
-      "(prefers-reduced-motion: reduce)",
-    ).matches;
-    const interactiveSelector =
-      "a, button, input, textarea, select, [role='button'], [data-cursor-hover]";
-    let targetX = window.innerWidth / 2;
-    let targetY = window.innerHeight / 2;
-    let currentX = targetX;
-    let currentY = targetY;
-    let animationFrame = 0;
-
-    const renderRing = () => {
-      const ease = reducedMotion ? 1 : 0.18;
-      currentX += (targetX - currentX) * ease;
-      currentY += (targetY - currentY) * ease;
-      ring.style.transform = `translate3d(${currentX}px, ${currentY}px, 0) translate(-50%, -50%)`;
-      if (
-        Math.abs(targetX - currentX) > 0.2 ||
-        Math.abs(targetY - currentY) > 0.2
-      ) {
-        animationFrame = window.requestAnimationFrame(renderRing);
-      } else {
-        animationFrame = 0;
-      }
-    };
-
-    const onPointerMove = (event: PointerEvent) => {
-      if (event.pointerType !== "mouse") return;
-      const target = event.target;
-      const isEditable =
-        target instanceof Element &&
-        target.closest("input, textarea, select, [contenteditable='true']");
-      if (isEditable) {
-        cursor.dataset.visible = "false";
-        return;
-      }
-
-      targetX = event.clientX;
-      targetY = event.clientY;
-      dot.style.transform = `translate3d(${targetX}px, ${targetY}px, 0) translate(-50%, -50%)`;
-      cursor.dataset.visible = "true";
-      if (!animationFrame)
-        animationFrame = window.requestAnimationFrame(renderRing);
-    };
-
-    const onPointerOver = (event: PointerEvent) => {
-      if (
-        event.target instanceof Element &&
-        event.target.closest(interactiveSelector)
-      ) {
-        ring.classList.add("is-hovering");
-      }
-    };
-
-    const onPointerOut = (event: PointerEvent) => {
-      const nextTarget = event.relatedTarget;
-      if (
-        !(nextTarget instanceof Element) ||
-        !nextTarget.closest(interactiveSelector)
-      ) {
-        ring.classList.remove("is-hovering");
-      }
-    };
-
-    const onPointerDown = () => ring.classList.add("is-pressed");
-    const onPointerUp = () => ring.classList.remove("is-pressed");
-
-    document.documentElement.classList.add("custom-cursor-enabled");
-    window.addEventListener("pointermove", onPointerMove);
-    document.addEventListener("pointerover", onPointerOver);
-    document.addEventListener("pointerout", onPointerOut);
-    document.addEventListener("pointerdown", onPointerDown);
-    document.addEventListener("pointerup", onPointerUp);
-
-    return () => {
-      document.documentElement.classList.remove("custom-cursor-enabled");
-      window.removeEventListener("pointermove", onPointerMove);
-      document.removeEventListener("pointerover", onPointerOver);
-      document.removeEventListener("pointerout", onPointerOut);
-      document.removeEventListener("pointerdown", onPointerDown);
-      document.removeEventListener("pointerup", onPointerUp);
-      if (animationFrame) window.cancelAnimationFrame(animationFrame);
-    };
-  }, []);
-
-  return (
-    <div className="custom-cursor" aria-hidden="true" data-visible="false">
-      <span className="custom-cursor-ring" />
-      <span className="custom-cursor-dot" />
-    </div>
-  );
-}
-
 function App() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [activeProject, setActiveProject] = useState(0);
@@ -378,8 +273,6 @@ function App() {
   };
 
   useEffect(() => {
-    if (showStartup) return;
-
     const revealItems = Array.from(
       document.querySelectorAll<HTMLElement>(
         "[data-reveal], .skills-layout, .about-profile, .awards-grid, .awards-showcase, .education-strip, .training-row, .experience-list, .technical-list, .beyond-wrap, .contact-wrap",
@@ -410,13 +303,10 @@ function App() {
       observer.disconnect();
       document.documentElement.classList.remove("js-reveal");
     };
-  }, [showStartup]);
+  }, []);
 
   return (
-    <div
-      className={`site-shell${peachMode ? " peach-mode" : ""}${showStartup ? "" : " is-ready"}`}
-    >
-      <CustomCursor />
+    <div className={peachMode ? "site-shell peach-mode" : "site-shell"}>
       {showStartup && (
         <div
           className={`startup-screen${startupLeaving ? " is-leaving" : ""}`}

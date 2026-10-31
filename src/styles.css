@@ -1531,82 +1531,6 @@ button {
   }
 }
 
-.custom-cursor {
-  position: fixed;
-  inset: 0;
-  z-index: 10001;
-  pointer-events: none;
-  opacity: 0;
-  transition: opacity 120ms ease;
-}
-
-.custom-cursor[data-visible="true"] {
-  opacity: 1;
-}
-
-.custom-cursor-ring,
-.custom-cursor-dot {
-  position: fixed;
-  top: 0;
-  left: 0;
-  display: block;
-  border-radius: 50%;
-  pointer-events: none;
-}
-
-.custom-cursor-ring {
-  width: 28px;
-  height: 28px;
-  border: 1px solid var(--accent);
-  background: color-mix(in srgb, var(--accent) 7%, transparent);
-  transition:
-    width 180ms ease,
-    height 180ms ease,
-    background-color 180ms ease,
-    border-color 180ms ease,
-    opacity 180ms ease;
-}
-
-.custom-cursor-ring.is-hovering {
-  width: 44px;
-  height: 44px;
-  background: color-mix(in srgb, var(--accent) 16%, transparent);
-}
-
-.custom-cursor-ring.is-pressed {
-  width: 22px;
-  height: 22px;
-}
-
-.custom-cursor-dot {
-  width: 5px;
-  height: 5px;
-  background: var(--accent);
-}
-
-html.custom-cursor-enabled,
-html.custom-cursor-enabled body,
-html.custom-cursor-enabled
-  :is(a, button, input, textarea, select, [role="button"]) {
-  cursor: none !important;
-}
-
-html.custom-cursor-enabled :is(input, textarea, [contenteditable="true"]) {
-  cursor: text !important;
-}
-
-@media (hover: none), (pointer: coarse) {
-  .custom-cursor {
-    display: none;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .custom-cursor,
-  .custom-cursor-ring {
-    transition: none;
-  }
-}
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
@@ -2339,8 +2263,14 @@ html.js-reveal .contact-wrap:not(.is-visible) {
   font-size: 7px;
   color: var(--quiet);
 }
+.hero-outline-name span {
+  animation: name-reveal 0.9s both;
+}
+.hero-outline-name span:nth-child(2) {
+  animation-delay: 0.16s;
+}
 .portrait-stage {
-  animation: none;
+  animation: portrait-arrive 0.8s 0.2s cubic-bezier(0.2, 0.8, 0.2, 1) both;
 }
 .gallery-arrow:hover,
 .contact-card:hover {
@@ -2350,7 +2280,7 @@ html.js-reveal .contact-wrap:not(.is-visible) {
   touch-action: pan-y;
 }
 .section-head h2 {
-  animation: none;
+  animation: heading-reveal 0.65s both;
 }
 .about-avatar {
   overflow: hidden;
@@ -2409,51 +2339,19 @@ html.js-reveal .contact-wrap:not(.is-visible) {
   width: max-content;
   align-items: center;
   will-change: transform;
-  animation: none;
+  animation: name-marquee 25s linear infinite;
 }
 .hero-name-track span {
   display: block;
   flex: none;
   white-space: nowrap;
   padding-right: 12vw;
-  animation: none;
+  animation: name-reveal 0.9s both;
 }
 .hero-name-track span:nth-child(2) {
   animation-delay: 0.18s;
 }
 
-.site-shell.is-ready .hero-name-track {
-  animation: name-marquee 25s linear infinite;
-}
-
-.site-shell.is-ready .hero-name-track span {
-  animation: name-reveal 0.9s both;
-}
-
-.site-shell.is-ready .portrait-stage {
-  animation: portrait-arrive 0.8s 0.12s cubic-bezier(0.2, 0.8, 0.2, 1) both;
-}
-
-.site-shell.is-ready .portrait-photo {
-  animation: portrait-photo-reveal 0.9s 0.25s cubic-bezier(0.2, 0.8, 0.2, 1) both;
-}
-
-.site-shell.is-ready .section-head.is-visible h2 {
-  animation: heading-reveal 0.65s both;
-}
-
-@keyframes portrait-photo-reveal {
-  from {
-    opacity: 0;
-    filter: blur(3px);
-    transform: translateX(-50%) translateY(20px) scale(0.96);
-  }
-  to {
-    opacity: 1;
-    filter: blur(0);
-    transform: translateX(-50%) translateY(0) scale(1);
-  }
-}
 @keyframes name-marquee {
   from {
     transform: translateX(0);
@@ -2471,13 +2369,6 @@ html.js-reveal .contact-wrap:not(.is-visible) {
   .hero-name-track {
     animation: none;
     transform: none;
-  }
-
-  .site-shell.is-ready .hero-name-track span,
-  .site-shell.is-ready .portrait-stage,
-  .site-shell.is-ready .portrait-photo,
-  .site-shell.is-ready .section-head.is-visible h2 {
-    animation: none;
   }
 }
 html.js-reveal .awards-showcase:not(.is-visible),
