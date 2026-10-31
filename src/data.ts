@@ -28,16 +28,16 @@ export const education = [
 
 export const skills = [
   {
-    category: "DESIGN",
-    items: ["[UI / UX design]", "[Wireframing]", "[Figma]"],
-  },
-  {
     category: "DEVELOPMENT",
-    items: ["[HTML & CSS]", "[JavaScript]", "[React]"],
+    items: ["HTML", "CSS", "JavaScript", "React", "TypeScript"],
   },
   {
-    category: "TOOLKIT",
-    items: ["[Git & GitHub]", "[Your tools]", "[Your next skill]"],
+    category: "WEB TOOLS",
+    items: ["Vite", "Tailwind CSS", "Figma"],
+  },
+  {
+    category: "CREATIVE & DATA",
+    items: ["Blender", "electron-builder", "SQLite"],
   },
 ];
 

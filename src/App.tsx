@@ -755,21 +755,31 @@ function App() {
                   <ul>
                     {group.items.map((item) => {
                       const label = item.replace(/[\[\]]/g, "");
-                      const icon = /figma/i.test(label)
-                        ? "F"
-                        : /html/i.test(label)
-                          ? "5"
-                          : /css/i.test(label)
-                            ? "3"
-                            : /javascript/i.test(label)
-                              ? "JS"
-                              : /react/i.test(label)
-                                ? "⚛"
-                                : /git/i.test(label)
-                                  ? "G"
-                                  : "⌘";
+                      const icon = /html/i.test(label)
+                        ? "5"
+                        : label === "CSS"
+                          ? "3"
+                          : /javascript/i.test(label)
+                            ? "JS"
+                            : /react/i.test(label)
+                              ? "⚛"
+                              : /typescript/i.test(label)
+                                ? "TS"
+                                : /vite/i.test(label)
+                                  ? "V"
+                                  : /tailwind/i.test(label)
+                                    ? "≈"
+                                    : /figma/i.test(label)
+                                      ? "●"
+                                      : /blender/i.test(label)
+                                        ? "✿"
+                                        : /electron/i.test(label)
+                                          ? "EB"
+                                          : /sqlite/i.test(label)
+                                            ? "▤"
+                                            : "⌘";
                       return (
-                        <li key={item}>
+                        <li key={item} className={`skill-chip skill-${label.toLowerCase().replace(/[^a-z]+/g, "-")}`}>
                           <span className="skill-chip-icon" aria-hidden="true">
                             {icon}
                           </span>
