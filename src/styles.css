@@ -2210,9 +2210,13 @@ body {
 .resume-wrap {
   padding-block: 60px;
   display: grid;
-  grid-template-columns: 0.8fr 1.2fr;
-  align-items: center;
-  gap: 28px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-items: stretch;
+  gap: 14px;
+}
+.resume-copy {
+  grid-column: 1 / -1;
+  margin-bottom: 8px;
 }
 .resume-copy h2 {
   font-size: clamp(30px, 4vw, 46px);
@@ -2225,7 +2229,9 @@ body {
   line-height: 1.7;
   color: var(--muted);
 }
-.resume-placeholder {
+.resume-placeholder,
+.cover-placeholder {
+  min-width: 0;
   min-height: 100px;
   display: flex;
   align-items: center;
@@ -2233,6 +2239,23 @@ body {
   padding: 18px;
   border: 1px dashed var(--line);
   background: var(--panel);
+}
+.cover-placeholder {
+  color: inherit;
+  text-decoration: none;
+  transition:
+    border-color 180ms ease,
+    background-color 180ms ease,
+    transform 180ms ease;
+}
+.cover-placeholder:hover {
+  border-color: var(--accent);
+  background: var(--panel-raised);
+  transform: translateY(-2px);
+}
+.cover-placeholder:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
 }
 .resume-file-icon {
   width: 42px;
@@ -2242,39 +2265,50 @@ body {
   background: var(--panel-raised);
   color: var(--accent);
 }
-.resume-placeholder > div {
+.resume-placeholder > div,
+.cover-placeholder > div {
   display: grid;
   gap: 6px;
   min-width: 0;
 }
 .resume-placeholder strong,
-.resume-status {
+.resume-status,
+.cover-placeholder strong,
+.cover-status {
   font:
     7px "Poppins",
     sans-serif;
   letter-spacing: 0.1em;
   color: var(--accent);
 }
-.resume-placeholder small {
+.resume-placeholder small,
+.cover-placeholder small {
   font-size: 8px;
   color: var(--muted);
 }
-.resume-status {
+.resume-status,
+.cover-status {
   margin-left: auto;
   white-space: nowrap;
   color: var(--quiet);
 }
 @media (max-width: 680px) {
   .resume-wrap {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
     gap: 12px;
     padding-block: 46px;
   }
-  .resume-placeholder {
+  .resume-copy {
+    grid-column: auto;
+    margin-bottom: 0;
+  }
+  .resume-placeholder,
+  .cover-placeholder {
     padding: 13px;
     gap: 10px;
   }
-  .resume-status {
+  .resume-status,
+  .cover-status {
     font-size: 6px;
   }
 }

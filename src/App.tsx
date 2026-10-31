@@ -24,6 +24,7 @@ import {
   skills,
 } from "./data";
 import profilePhoto from "./assets/philip-profile-cutout.png";
+import coverLetter from "./assets/philip-miguel-cover-letter.pdf";
 
 const nav = [
   ["Home", "#home"],
@@ -659,16 +660,23 @@ function App() {
               </div>
               <span className="resume-status">COMING SOON</span>
             </div>
-            <div className="cover-placeholder" role="status">
+
+            <a
+              className="cover-placeholder"
+              href={coverLetter}
+              target="_blank"
+              rel="noreferrer"
+              aria-label="Open Philip Miguel's cover letter PDF in a new tab"
+            >
               <span className="resume-file-icon">
                 <BriefcaseBusiness size={20} />
               </span>
               <div>
-                <strong>COVER LETTER FILE</strong>
-                <small>[Add your cover PDF here]</small>
+                <strong>COVER LETTER</strong>
+                <small>Open the PDF in a new tab</small>
               </div>
-              <span className="cover-status">COMING SOON</span>
-            </div>
+              <span className="cover-status">VIEW PDF ↗</span>
+            </a>
           </div>
         </section>
 
