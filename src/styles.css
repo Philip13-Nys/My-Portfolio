@@ -2664,3 +2664,44 @@ video {
     font-size: 9px;
   }
 }
+
+.side-project-image {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+@media (max-width: 680px) {
+  .side-project {
+    display: grid;
+    width: 34%;
+    top: 30px;
+    gap: 7px;
+  }
+
+  .side-left {
+    left: 0;
+    transform: perspective(500px) rotateY(11deg) scale(0.86);
+  }
+
+  .side-right {
+    right: 0;
+    transform: perspective(500px) rotateY(-11deg) scale(0.86);
+  }
+
+  .featured-project {
+    width: 72%;
+  }
+
+  .mini-site {
+    height: clamp(90px, 30vw, 130px);
+  }
+
+  .side-project > span:last-child {
+    overflow: hidden;
+    font-size: 7px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+}

@@ -266,10 +266,20 @@ function App() {
                 aria-label={`Show ${previousProject.title}`}
               >
                 <span className="mini-site mini-left">
-                  <i />
-                  <i />
-                  <i />
-                  <b />
+                  {previousProject.image ? (
+                    <img
+                      className="side-project-image"
+                      src={previousProject.image}
+                      alt=""
+                    />
+                  ) : (
+                    <>
+                      <i />
+                      <i />
+                      <i />
+                      <b />
+                    </>
+                  )}
                 </span>
                 <span>{previousProject.title}</span>
               </button>
@@ -349,10 +359,20 @@ function App() {
                 aria-label={`Show ${nextProject.title}`}
               >
                 <span className="mini-site mini-right">
-                  <i />
-                  <i />
-                  <i />
-                  <b />
+                  {nextProject.image ? (
+                    <img
+                      className="side-project-image"
+                      src={nextProject.image}
+                      alt=""
+                    />
+                  ) : (
+                    <>
+                      <i />
+                      <i />
+                      <i />
+                      <b />
+                    </>
+                  )}
                 </span>
                 <span>{nextProject.title}</span>
               </button>
