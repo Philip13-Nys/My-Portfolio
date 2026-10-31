@@ -58,7 +58,7 @@ export const projects = [
     title: "Sabang Beach and Diving Resort",
     type: "Resort booking website",
     description:
-      "A resort booking experience with stay dates, an availability calendar, guest selection, and a room booking flow.",
+      "Online Booking System for Diving Resort with Customer AI-Assistance, designed to provide customers with a convenient and efficient way tomake reservations and access resort services online",
     tags: ["Resort booking", "[Add technologies]"],
     href: "https://diving-resort.web.app/",
     art: "lavender",
