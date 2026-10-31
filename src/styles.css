@@ -892,39 +892,17 @@ button {
   top: 72%;
 }
 .skill-group {
-  display: grid;
-  grid-template-columns: 43px 1fr;
-  gap: 16px;
-  padding: 17px 0;
-  border-bottom: 1px solid var(--line);
-}
-.skill-group:first-child {
-  padding-top: 0;
-}
-.skill-group:last-child {
-  border-bottom: 0;
-  padding-bottom: 0;
-}
-.skill-number {
-  font:
-    16px "Poppins",
-    sans-serif;
-  color: var(--accent);
+  min-width: 0;
 }
 .skill-group h3 {
-  font-size: 17px;
-  text-transform: capitalize;
-  letter-spacing: -0.04em;
-  margin: 0 0 3px;
-}
-.skill-group p {
-  font-size: 8px;
-  color: var(--muted);
-  margin: 0 0 8px;
+  margin: 0 0 10px;
+  color: var(--accent);
+  font: 7px/1.6 "Press Start 2P", "Poppins", sans-serif;
+  letter-spacing: 0.04em;
 }
 .skill-group ul {
   display: flex;
-  gap: 6px;
+  gap: 8px;
   flex-wrap: wrap;
   list-style: none;
   padding: 0;
@@ -933,14 +911,57 @@ button {
 .skill-group li {
   display: flex;
   align-items: center;
-  gap: 4px;
+  gap: 9px;
+  min-height: 46px;
   border: 1px solid var(--line);
-  padding: 5px 6px;
-  color: var(--muted);
-  font-size: 7px;
+  padding: 7px 12px;
+  background: var(--panel);
+  color: var(--text);
+  font: 8px/1.5 "Press Start 2P", "Poppins", sans-serif;
+  font-size: clamp(6px, 0.65vw, 8px);
+  transition: border-color 180ms ease, background-color 180ms ease, transform 180ms ease;
 }
-.skill-group li svg {
+.skill-group li:hover {
+  border-color: var(--accent);
+  background: var(--panel-raised);
+  transform: translateY(-2px);
+}
+.skill-chip-icon {
+  width: 25px;
+  height: 25px;
+  display: grid;
+  flex: none;
+  place-items: center;
+  background: color-mix(in srgb, var(--accent) 14%, var(--panel-raised));
   color: var(--accent);
+  font: 700 11px/1 "Poppins", sans-serif;
+  letter-spacing: -0.06em;
+}
+.skill-groups {
+  display: grid;
+  gap: 20px;
+}
+@media (min-width: 980px) {
+  .skill-groups {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    align-items: start;
+    gap: 18px;
+  }
+}
+@media (max-width: 680px) {
+  .skill-group ul {
+    gap: 6px;
+  }
+  .skill-group li {
+    min-height: 40px;
+    gap: 7px;
+    padding: 6px 8px;
+    font-size: 6px;
+  }
+  .skill-chip-icon {
+    width: 22px;
+    height: 22px;
+  }
 }
 .about-section {
   background: var(--panel);

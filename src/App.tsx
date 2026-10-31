@@ -748,69 +748,38 @@ function App() {
           <div className="section-rule" />
           <div className="content-wrap skills-wrap">
             <SectionHead kicker="02 / MY TOOLKIT" title="What I can do" />
-            <div className="skills-layout">
-              <div className="skill-orbit">
-                <span className="orbit-title">
-                  CURRENTLY
-                  <br />
-                  LEARNING
-                </span>
-                {skills
-                  .flatMap((s) => s.items)
-                  .slice(0, 9)
-                  .map((item, i) => (
-                    <span
-                      className={`skill-glyph glyph-${i + 1}`}
-                      key={item}
-                      title={item}
-                    >
-                      {i === 0 ? (
-                        <Code2 size={16} />
-                      ) : i === 1 ? (
-                        <span>F</span>
-                      ) : i === 2 ? (
-                        <span>JS</span>
-                      ) : i === 3 ? (
-                        <span>UI</span>
-                      ) : i === 4 ? (
-                        <span>R</span>
-                      ) : i === 5 ? (
-                        <span>G</span>
-                      ) : i === 6 ? (
-                        <span>CSS</span>
-                      ) : i === 7 ? (
-                        <span>TS</span>
-                      ) : (
-                        <span>✦</span>
-                      )}
-                    </span>
-                  ))}
-              </div>
-              <div className="skill-groups">
-                {skills.map((group, i) => (
-                  <article className="skill-group" key={group.category}>
-                    <span className="skill-number">0{i + 1}</span>
-                    <div>
-                      <h3>{group.category.toLowerCase()}</h3>
-                      <p>
-                        {i === 0
-                          ? "Turning ideas into clear, considered interfaces."
-                          : i === 1
-                            ? "Building practical things for the web."
-                            : "Tools I use to learn, make, and collaborate."}
-                      </p>
-                      <ul>
-                        {group.items.map((item) => (
-                          <li key={item}>
-                            {item}
-                            <ArrowUpRight size={11} />
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  </article>
-                ))}
-              </div>
+            <div className="skill-groups" data-reveal>
+              {skills.map((group) => (
+                <article className="skill-group" key={group.category}>
+                  <h3>{group.category}</h3>
+                  <ul>
+                    {group.items.map((item) => {
+                      const label = item.replace(/[\[\]]/g, "");
+                      const icon = /figma/i.test(label)
+                        ? "F"
+                        : /html/i.test(label)
+                          ? "5"
+                          : /css/i.test(label)
+                            ? "3"
+                            : /javascript/i.test(label)
+                              ? "JS"
+                              : /react/i.test(label)
+                                ? "⚛"
+                                : /git/i.test(label)
+                                  ? "G"
+                                  : "⌘";
+                      return (
+                        <li key={item}>
+                          <span className="skill-chip-icon" aria-hidden="true">
+                            {icon}
+                          </span>
+                          <span>{item}</span>
+                        </li>
+                      );
+                    })}
+                  </ul>
+                </article>
+              ))}
             </div>
           </div>
         </section>
