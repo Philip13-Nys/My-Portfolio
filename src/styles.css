@@ -2673,25 +2673,39 @@ video {
 }
 
 @media (max-width: 680px) {
-  .side-project {
+  .gallery-frame {
     display: grid;
-    width: 14%;
-    top: 30px;
-    gap: 7px;
+    grid-template-columns: minmax(0, 0.7fr) minmax(0, 3.6fr) minmax(0, 0.7fr);
+    align-items: start;
+    gap: 8px;
+    padding: 0;
   }
 
-  .side-left {
-    left: 0;
-    transform: perspective(500px) rotateY(11deg) scale(0.86);
+  .side-project {
+    position: relative;
+    display: grid;
+    top: auto;
+    width: 100%;
+    min-width: 0;
+    transform: none;
+    transform-origin: center;
+    opacity: 0.8;
+    gap: 0;
   }
 
+  .side-left,
   .side-right {
-    right: 0;
-    transform: perspective(500px) rotateY(-11deg) scale(0.86);
+    left: auto;
+    right: auto;
+  }
+
+  .side-project-image {
+    object-fit: cover;
   }
 
   .featured-project {
-    width: 72%;
+    width: 100%;
+    min-width: 0;
   }
 
   .mini-site {
@@ -2700,5 +2714,395 @@ video {
 
   .side-project > span:last-child {
     display: none;
+  }
+
+  .gallery-arrow {
+    top: clamp(52px, 20vw, 90px);
+  }
+
+  .gallery-prev {
+    left: 14%;
+  }
+
+  .gallery-next {
+    right: 14%;
+  }
+}
+
+@media (max-width: 380px) {
+  .gallery-frame {
+    display: block;
+    padding-inline: 0;
+  }
+
+  .side-project {
+    display: none;
+  }
+
+  .featured-project {
+    width: 100%;
+  }
+
+  .gallery-prev {
+    left: 0;
+  }
+
+  .gallery-next {
+    right: 0;
+  }
+}
+
+/* =========================================
+   FINAL MOBILE RESPONSIVENESS FIX
+   Preserves the existing desktop design
+========================================= */
+
+@media (max-width: 680px) {
+  /* Prevent horizontal overflow */
+  html,
+  body {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden;
+  }
+
+  .site-shell {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: clip;
+  }
+
+  .content-wrap {
+    width: calc(100% - 32px);
+    max-width: 100%;
+  }
+
+  /* HEADER */
+  .header-wrap {
+    width: calc(100% - 72px);
+    min-width: 0;
+    gap: 8px;
+    padding: 8px;
+  }
+
+  .brand {
+    min-width: 0;
+    font-size: 9px;
+  }
+
+  .header-actions {
+    flex: 0 0 auto;
+    margin-left: auto;
+    gap: 6px;
+  }
+
+  .menu-toggle {
+    position: absolute;
+    left: -30px;
+    top: 50%;
+    transform: translateY(-50%);
+    display: grid;
+    place-items: center;
+  }
+
+  .main-nav {
+    z-index: 20;
+    width: auto;
+  }
+
+  /* WORK GALLERY */
+  .work-wrap {
+    padding-block: 45px;
+  }
+
+  .section-head {
+    display: block;
+    margin-bottom: 24px;
+  }
+
+  .section-head h2 {
+    font-size: clamp(32px, 9vw, 42px);
+    line-height: 1.1;
+  }
+
+  .section-head > p {
+    max-width: 100%;
+    font-size: 13px;
+    line-height: 1.7;
+  }
+
+  /* Remove the small side previews on mobile */
+  .gallery-frame {
+    display: block;
+    position: relative;
+    width: 100%;
+    padding: 0 12px;
+    overflow: visible;
+  }
+
+  .side-project {
+    display: none !important;
+  }
+
+  /* Featured project */
+  .featured-project {
+    width: 100%;
+    max-width: 640px;
+    min-width: 0;
+    margin-inline: auto;
+  }
+
+  .project-screen {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .project-screen.has-image {
+    width: 100%;
+    height: auto;
+    min-height: 0;
+    aspect-ratio: 16 / 9;
+    padding: 0;
+    overflow: hidden;
+  }
+
+  .project-preview-image {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    object-position: center;
+  }
+
+  /* Gallery navigation arrows */
+  .gallery-arrow {
+    top: clamp(60px, 20vw, 100px);
+    width: 30px;
+    height: 30px;
+    z-index: 5;
+    transform: translateY(-50%);
+  }
+
+  .gallery-arrow:hover {
+    transform: translateY(-50%);
+  }
+
+  .gallery-prev {
+    left: -2px;
+  }
+
+  .gallery-next {
+    right: -2px;
+  }
+
+  /* Project description */
+  .featured-caption {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
+    width: 100%;
+    padding: 17px 2px 5px;
+  }
+
+  .featured-caption > div {
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+
+  .project-type {
+    font-size: 11px;
+    line-height: 1.5;
+  }
+
+  .featured-caption h3 {
+    font-size: 19px;
+    line-height: 1.4;
+    overflow-wrap: anywhere;
+  }
+
+  .featured-caption p {
+    max-width: 100%;
+    font-size: 13px;
+    line-height: 1.7;
+    overflow-wrap: anywhere;
+  }
+
+  .project-open {
+    flex: 0 0 38px;
+    width: 38px;
+    height: 38px;
+  }
+
+  .project-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 7px;
+  }
+
+  .project-tags span {
+    font-size: 10px;
+    padding: 6px 8px;
+  }
+
+  /* Gallery footer */
+  .gallery-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 20px;
+    padding-top: 14px;
+    font-size: 9px;
+  }
+
+  .gallery-footer > span:last-child {
+    width: 100%;
+    text-align: center;
+    line-height: 1.7;
+  }
+
+  /* SKILLS */
+  .skills-layout {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 28px;
+  }
+
+  .skill-orbit {
+    width: min(240px, 85%);
+  }
+
+  /* ABOUT */
+  .about-profile {
+    grid-template-columns: 70px minmax(0, 1fr);
+    gap: 12px;
+  }
+
+  .about-details {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 14px;
+  }
+
+  /* AWARDS AND TRAINING */
+  .awards-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .awards-showcase,
+  .training-row {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 18px;
+  }
+
+  .award-card {
+    min-width: 0;
+  }
+
+  /* EXPERIENCE */
+  .experience-item {
+    grid-template-columns: 27px minmax(0, 1fr) 16px;
+    gap: 10px;
+  }
+
+  /* RESUME */
+  .resume-wrap {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 15px;
+  }
+
+  .resume-placeholder {
+    min-width: 0;
+    flex-wrap: wrap;
+  }
+
+  /* CONTACT */
+  .contact-wrap {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 25px;
+    padding-inline: 0;
+  }
+
+  .contact-details,
+  .contact-form {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .contact-card {
+    min-width: 0;
+  }
+
+  .contact-card strong {
+    overflow-wrap: anywhere;
+  }
+
+  /* FOOTER */
+  .footer-inner {
+    flex-wrap: wrap;
+    justify-content: center;
+    text-align: center;
+    gap: 12px;
+    padding-block: 15px;
+  }
+}
+
+/* EXTRA SMALL PHONES */
+@media (max-width: 380px) {
+  .header-wrap {
+    width: calc(100% - 56px);
+  }
+
+  .menu-toggle {
+    left: -26px;
+  }
+
+  .brand {
+    font-size: 8px;
+  }
+
+  .hire-button {
+    padding-inline: 6px;
+    font-size: 5.5px;
+  }
+
+  .gallery-frame {
+    padding-inline: 8px;
+  }
+
+  .gallery-arrow {
+    width: 26px;
+    height: 26px;
+  }
+
+  .featured-caption h3 {
+    font-size: 17px;
+  }
+
+  .featured-caption p {
+    font-size: 12px;
+  }
+
+  .contact-intro h2 {
+    font-size: clamp(42px, 14vw, 60px);
+  }
+}
+
+/* TABLET REFINEMENTS */
+@media (min-width: 681px) and (max-width: 980px) {
+  .gallery-frame {
+    padding-inline: 35px;
+  }
+
+  .featured-project {
+    width: 82%;
+  }
+
+  .project-screen.has-image {
+    width: 100%;
+  }
+
+  .featured-caption {
+    gap: 15px;
   }
 }
