@@ -643,7 +643,7 @@ function App() {
           <div className="content-wrap resume-wrap">
             <div className="resume-copy">
               <PixelLabel>07 / Documents</PixelLabel>
-              <h2>My resume</h2>
+              <h2>My Documents</h2>
               <p>
                 A quick overview of my education, skills, and experience will be
                 available here.
@@ -658,6 +658,16 @@ function App() {
                 <small>[Add your resume PDF here]</small>
               </div>
               <span className="resume-status">COMING SOON</span>
+            </div>
+            <div className="cover-placeholder" role="status">
+              <span className="resume-file-icon">
+                <BriefcaseBusiness size={20} />
+              </span>
+              <div>
+                <strong>COVER LETTER FILE</strong>
+                <small>[Add your cover PDF here]</small>
+              </div>
+              <span className="cover-status">COMING SOON</span>
             </div>
           </div>
         </section>
