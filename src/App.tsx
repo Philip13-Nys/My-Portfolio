@@ -64,6 +64,9 @@ function App() {
   const [activeProject, setActiveProject] = useState(0);
   const [peachMode, setPeachMode] = useState(false);
   const [emailStatus, setEmailStatus] = useState("");
+  const [showStartup, setShowStartup] = useState(true);
+  const [startupLeaving, setStartupLeaving] = useState(false);
+  const [startupProgress, setStartupProgress] = useState(0);
   const project = projects[activeProject];
   const previousProject =
     projects[(activeProject + projects.length - 1) % projects.length];
@@ -73,6 +76,63 @@ function App() {
       (activeProject + direction + projects.length) % projects.length,
     );
   const heroName = profile.name.replace(/[\[\]]/g, "").toUpperCase();
+
+  useEffect(() => {
+    let cancelled = false;
+    let finished = 0;
+    let fadeTimer = 0;
+    const imageUrls = Array.from(
+      new Set(
+        [
+          profilePhoto,
+          ...projects.map((item) => item.image),
+          ...certifications.map((item) => item.image),
+        ].filter((url): url is string => Boolean(url)),
+      ),
+    );
+
+    const imageLoads = imageUrls.map(
+      (url) =>
+        new Promise<void>((resolve) => {
+          const image = new Image();
+          let settled = false;
+          const finish = () => {
+            if (settled) return;
+            settled = true;
+            finished += 1;
+            if (!cancelled) {
+              setStartupProgress(
+                Math.round((finished / imageUrls.length) * 100),
+              );
+            }
+            resolve();
+          };
+          image.addEventListener("load", finish, { once: true });
+          image.addEventListener("error", finish, { once: true });
+          image.src = url;
+          if (image.complete) finish();
+        }),
+    );
+
+    let minimumTimer = 0;
+    const minimumDisplayTime = new Promise<void>((resolve) => {
+      minimumTimer = window.setTimeout(resolve, 850);
+    });
+
+    Promise.all([...imageLoads, minimumDisplayTime]).then(() => {
+      if (cancelled) return;
+      setStartupProgress(100);
+      setStartupLeaving(true);
+      fadeTimer = window.setTimeout(() => setShowStartup(false), 480);
+    });
+
+    return () => {
+      cancelled = true;
+      window.clearTimeout(minimumTimer);
+      window.clearTimeout(fadeTimer);
+    };
+  }, []);
+
   const sendMessage = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const formElement = event.currentTarget;
@@ -153,6 +213,33 @@ function App() {
 
   return (
     <div className={peachMode ? "site-shell peach-mode" : "site-shell"}>
+      {showStartup && (
+        <div
+          className={`startup-screen${startupLeaving ? " is-leaving" : ""}`}
+          role="status"
+          aria-live="polite"
+          aria-label={`Loading portfolio, ${startupProgress}%`}
+        >
+          <div className="startup-content">
+            <span className="startup-kicker">PLAYER 01 / PORTFOLIO</span>
+            <div className="startup-mark" aria-hidden="true">
+              P
+            </div>
+            <p className="startup-name">{profile.name}</p>
+            <h1>Loading Portfolio</h1>
+            <div className="startup-track" aria-hidden="true">
+              <span style={{ width: `${startupProgress}%` }} />
+            </div>
+            <div className="startup-meta">
+              <span>WEB DEVELOPER</span>
+              <span>{String(startupProgress).padStart(2, "0")}%</span>
+            </div>
+          </div>
+          <span className="startup-corner" aria-hidden="true">
+            01&nbsp; /&nbsp; 07
+          </span>
+        </div>
+      )}
       <header className="header-wrap">
         <a className="brand" href="#home">
           <span className="brand-icon">

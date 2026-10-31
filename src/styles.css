@@ -3178,3 +3178,162 @@ video {
     padding: clamp(18px, 2vw, 30px);
   }
 }
+
+.startup-screen {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  padding: 24px;
+  background:
+    radial-gradient(
+      ellipse at 50% 42%,
+      color-mix(in srgb, var(--accent) 10%, transparent),
+      transparent 42%
+    ),
+    var(--bg);
+  color: var(--text);
+  opacity: 1;
+  visibility: visible;
+  transition:
+    opacity 480ms ease,
+    visibility 480ms ease;
+}
+
+.startup-screen::before {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(
+      90deg,
+      transparent 49.8%,
+      var(--line) 50%,
+      transparent 50.2%
+    ),
+    linear-gradient(transparent 49.8%, var(--line) 50%, transparent 50.2%);
+  background-size: 48px 48px;
+  opacity: 0.17;
+  content: "";
+  mask-image: radial-gradient(ellipse at center, #000 0%, transparent 72%);
+}
+
+.startup-screen.is-leaving {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.startup-content {
+  position: relative;
+  width: min(100%, 340px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  animation: startup-arrive 600ms cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+
+.startup-kicker,
+.startup-meta,
+.startup-corner {
+  color: var(--accent);
+  font:
+    8px/1.7 "Press Start 2P",
+    "Poppins",
+    sans-serif;
+  letter-spacing: 0.08em;
+}
+
+.startup-mark {
+  width: 60px;
+  height: 60px;
+  display: grid;
+  place-items: center;
+  margin: 25px 0 20px;
+  border: 1px solid var(--accent);
+  background: var(--accent);
+  color: var(--accent-text);
+  font-size: 26px;
+  font-weight: 800;
+  box-shadow: 8px 8px 0 color-mix(in srgb, var(--accent) 18%, transparent);
+  animation: startup-mark-pulse 1.2s ease-in-out infinite alternate;
+}
+
+.startup-name {
+  margin: 0;
+  color: var(--text);
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+
+.startup-content h1 {
+  margin: 8px 0 25px;
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 400;
+}
+
+.startup-track {
+  width: min(100%, 270px);
+  height: 4px;
+  overflow: hidden;
+  background: var(--line);
+}
+
+.startup-track span {
+  display: block;
+  height: 100%;
+  background: var(--accent);
+  box-shadow: 0 0 14px color-mix(in srgb, var(--accent) 55%, transparent);
+  transition: width 220ms ease;
+}
+
+.startup-meta {
+  width: min(100%, 270px);
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+  color: var(--muted);
+  font-size: 6px;
+}
+
+.startup-corner {
+  position: absolute;
+  right: clamp(16px, 4vw, 48px);
+  bottom: clamp(16px, 4vw, 40px);
+  color: var(--quiet);
+  font-size: 6px;
+}
+
+@keyframes startup-arrive {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes startup-mark-pulse {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(-5px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .startup-screen,
+  .startup-content,
+  .startup-mark,
+  .startup-track span {
+    animation: none;
+    transition-duration: 0.01ms;
+  }
+}
