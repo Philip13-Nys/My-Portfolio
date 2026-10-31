@@ -74,7 +74,9 @@ function SectionHead({
 
 function CustomCursor() {
   useEffect(() => {
-    const pointerQuery = window.matchMedia("(hover: hover) and (pointer: fine)");
+    const pointerQuery = window.matchMedia(
+      "(hover: hover) and (pointer: fine)",
+    );
     if (!pointerQuery.matches) return;
 
     const cursor = document.querySelector<HTMLElement>(".custom-cursor");
@@ -123,7 +125,8 @@ function CustomCursor() {
       targetY = event.clientY;
       dot.style.transform = `translate3d(${targetX}px, ${targetY}px, 0) translate(-50%, -50%)`;
       cursor.dataset.visible = "true";
-      if (!animationFrame) animationFrame = window.requestAnimationFrame(renderRing);
+      if (!animationFrame)
+        animationFrame = window.requestAnimationFrame(renderRing);
     };
 
     const onPointerOver = (event: PointerEvent) => {
@@ -375,6 +378,8 @@ function App() {
   };
 
   useEffect(() => {
+    if (showStartup) return;
+
     const revealItems = Array.from(
       document.querySelectorAll<HTMLElement>(
         "[data-reveal], .skills-layout, .about-profile, .awards-grid, .awards-showcase, .education-strip, .training-row, .experience-list, .technical-list, .beyond-wrap, .contact-wrap",
@@ -405,10 +410,12 @@ function App() {
       observer.disconnect();
       document.documentElement.classList.remove("js-reveal");
     };
-  }, []);
+  }, [showStartup]);
 
   return (
-    <div className={peachMode ? "site-shell peach-mode" : "site-shell"}>
+    <div
+      className={`site-shell${peachMode ? " peach-mode" : ""}${showStartup ? "" : " is-ready"}`}
+    >
       <CustomCursor />
       {showStartup && (
         <div

@@ -2339,14 +2339,8 @@ html.js-reveal .contact-wrap:not(.is-visible) {
   font-size: 7px;
   color: var(--quiet);
 }
-.hero-outline-name span {
-  animation: name-reveal 0.9s both;
-}
-.hero-outline-name span:nth-child(2) {
-  animation-delay: 0.16s;
-}
 .portrait-stage {
-  animation: portrait-arrive 0.8s 0.2s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+  animation: none;
 }
 .gallery-arrow:hover,
 .contact-card:hover {
@@ -2356,7 +2350,7 @@ html.js-reveal .contact-wrap:not(.is-visible) {
   touch-action: pan-y;
 }
 .section-head h2 {
-  animation: heading-reveal 0.65s both;
+  animation: none;
 }
 .about-avatar {
   overflow: hidden;
@@ -2415,17 +2409,50 @@ html.js-reveal .contact-wrap:not(.is-visible) {
   width: max-content;
   align-items: center;
   will-change: transform;
-  animation: name-marquee 25s linear infinite;
+  animation: none;
 }
 .hero-name-track span {
   display: block;
   flex: none;
   white-space: nowrap;
   padding-right: 12vw;
-  animation: name-reveal 0.9s both;
+  animation: none;
 }
 .hero-name-track span:nth-child(2) {
   animation-delay: 0.18s;
+}
+
+.site-shell.is-ready .hero-name-track {
+  animation: name-marquee 25s linear infinite;
+}
+
+.site-shell.is-ready .hero-name-track span {
+  animation: name-reveal 0.9s both;
+}
+
+.site-shell.is-ready .portrait-stage {
+  animation: portrait-arrive 0.8s 0.12s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+
+.site-shell.is-ready .portrait-photo {
+  animation: portrait-photo-reveal 0.9s 0.25s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+
+.site-shell.is-ready .section-head.is-visible h2 {
+  animation: heading-reveal 0.65s both;
+}
+
+@keyframes portrait-photo-reveal {
+  from {
+    opacity: 0;
+    filter: blur(3px);
+    transform: translateX(-50%) translateY(20px) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    filter: blur(0);
+    transform: translateX(-50%) translateY(0) scale(1);
+  }
 }
 @keyframes name-marquee {
   from {
@@ -2444,6 +2471,13 @@ html.js-reveal .contact-wrap:not(.is-visible) {
   .hero-name-track {
     animation: none;
     transform: none;
+  }
+
+  .site-shell.is-ready .hero-name-track span,
+  .site-shell.is-ready .portrait-stage,
+  .site-shell.is-ready .portrait-photo,
+  .site-shell.is-ready .section-head.is-visible h2 {
+    animation: none;
   }
 }
 html.js-reveal .awards-showcase:not(.is-visible),
