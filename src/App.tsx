@@ -6,10 +6,12 @@ import {
   Award,
   BriefcaseBusiness,
   Code2,
+  Globe,
   Mail,
   Menu,
   Moon,
   Sun,
+  UserRound,
   X,
   Github,
   Linkedin,
@@ -116,7 +118,7 @@ function App() {
 
     let minimumTimer = 0;
     const minimumDisplayTime = new Promise<void>((resolve) => {
-      minimumTimer = window.setTimeout(resolve, 850);
+      minimumTimer = window.setTimeout(resolve, 1800);
     });
 
     Promise.all([...imageLoads, minimumDisplayTime]).then(() => {
@@ -221,17 +223,27 @@ function App() {
           aria-label={`Loading portfolio, ${startupProgress}%`}
         >
           <div className="startup-content">
-            <span className="startup-kicker">PLAYER 01 / PORTFOLIO</span>
-            <div className="startup-mark" aria-hidden="true">
-              P
+            <div className="startup-icons" aria-hidden="true">
+              <span>
+                <Code2 size={14} />
+              </span>
+              <span>
+                <UserRound size={14} />
+              </span>
+              <span>
+                <Globe size={14} />
+              </span>
             </div>
-            <p className="startup-name">{profile.name}</p>
-            <h1>Loading Portfolio</h1>
+            <h1>
+              <span>Welcome to my</span>
+              <strong>Portfolio Website</strong>
+            </h1>
+            <p className="startup-status">Preparing your portfolio...</p>
             <div className="startup-track" aria-hidden="true">
               <span style={{ width: `${startupProgress}%` }} />
             </div>
             <div className="startup-meta">
-              <span>WEB DEVELOPER</span>
+              <span>{profile.name.toUpperCase()} / WEB DEVELOPER</span>
               <span>{String(startupProgress).padStart(2, "0")}%</span>
             </div>
           </div>
