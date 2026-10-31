@@ -208,7 +208,6 @@ function App() {
           </div>
           <div className="hero-caption" data-reveal>
             <PixelLabel>PORTFOLIO / DEV</PixelLabel>
-            <span>DESIGN · CODE · CURIOSITY</span>
           </div>
           <div className="portrait-stage" data-reveal>
             <div className="portrait-glow" />
@@ -243,7 +242,6 @@ function App() {
               <SectionHead
                 kicker="01 / SELECTED PROJECTS"
                 title="Work Gallery"
-                note="A selection of things I’ve worked on, learned from, or made for fun."
               />
             </div>
             <div className="gallery-frame" data-reveal>
@@ -392,12 +390,6 @@ function App() {
                   />
                 ))}
               </div>
-              <span>
-                {String(activeProject + 1).padStart(2, "0")} <i />{" "}
-                {String(projects.length).padStart(2, "0")} &nbsp; / &nbsp;
-                PROJECTS
-              </span>
-              <span>PERSONAL WORK · LEARNING · EXPERIMENTATION</span>
             </div>
           </div>
         </section>
@@ -405,11 +397,7 @@ function App() {
         <section className="skills-section" id="skills">
           <div className="section-rule" />
           <div className="content-wrap skills-wrap">
-            <SectionHead
-              kicker="02 / MY TOOLKIT"
-              title="What I can do"
-              note="Skills I’m building through study, practice, and hands-on projects."
-            />
+            <SectionHead kicker="02 / MY TOOLKIT" title="What I can do" />
             <div className="skills-layout">
               <div className="skill-orbit">
                 <span className="orbit-title">
@@ -489,7 +477,6 @@ function App() {
                   <span>Web Developer.</span>
                 </>
               }
-              note="A curious mind with an interest in technology, gaming, and building useful digital experiences."
             />
             <div className="about-profile">
               <div className="about-avatar">
@@ -531,7 +518,6 @@ function App() {
             <SectionHead
               kicker="04 / RECOGNITION"
               title="Awards & Achievements"
-              note="A place for awards, certificates, and milestones. Details are placeholders until you share them."
             />
             <div className="awards-showcase">
               <div className="award-collage" aria-label="Certificate previews">
@@ -596,7 +582,6 @@ function App() {
             <SectionHead
               kicker="05 / LEARNING IN PUBLIC"
               title="Trainings & Hackathons"
-              note="Courses, events, and education details can be added here when available."
             />
             <div className="training-row">
               <div className="training-copy">
@@ -617,11 +602,7 @@ function App() {
         <section className="experience-section" id="experience">
           <div className="section-rule" />
           <div className="content-wrap experience-wrap">
-            <SectionHead
-              kicker="06 / WHERE I’VE BEEN"
-              title="Experience"
-              note="Professional, community, and personal experience — shared with room to grow."
-            />
+            <SectionHead kicker="06 / WHERE I’VE BEEN" title="Experience" />
             <div className="experience-list">
               {experience.map((item, i) => (
                 <article className="experience-item" key={i}>
@@ -686,7 +667,6 @@ function App() {
             <SectionHead
               kicker="07 / SELECTED WORK"
               title="Technical Projects"
-              note="A concise index of projects, tools, and experiments."
             />
             <div className="technical-list">
               {projects.map((item, i) => (
@@ -849,7 +829,7 @@ function App() {
             </span>
             {profile.name}
           </a>
-          <span>MADE WITH CURIOSITY · PLAYER ONE</span>
+
           <a href="#home">BACK TO TOP ↑</a>
         </div>
       </footer>

@@ -3140,3 +3140,41 @@ video {
     gap: 15px;
   }
 }
+
+/* Give large displays more room while keeping a comfortable reading width. */
+@media (min-width: 1440px) {
+  .content-wrap {
+    width: min(1440px, calc(100% - clamp(96px, 12vw, 300px)));
+  }
+
+  .header-wrap,
+  .hero {
+    width: min(1500px, calc(100% - clamp(96px, 12vw, 300px)));
+  }
+
+  .hero {
+    height: clamp(690px, 72svh, 820px);
+  }
+
+  .section-head h2 {
+    font-size: clamp(42px, 3.5vw, 54px);
+  }
+
+  .work-wrap,
+  .skills-wrap,
+  .about-wrap,
+  .awards-wrap,
+  .experience-wrap {
+    padding-block: clamp(69px, 5vw, 92px);
+  }
+
+  .resume-wrap {
+    gap: clamp(18px, 2vw, 34px);
+  }
+
+  .resume-placeholder,
+  .cover-placeholder {
+    min-height: clamp(110px, 8vw, 148px);
+    padding: clamp(18px, 2vw, 30px);
+  }
+}
