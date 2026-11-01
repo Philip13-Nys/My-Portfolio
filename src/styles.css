@@ -3856,135 +3856,328 @@ video {
 .pet-companions {
   position: fixed;
   z-index: 20;
-  inset: 0;
+  right: 0;
+  bottom: calc(8px + env(safe-area-inset-bottom));
+  left: 0;
+  height: 100px;
   overflow: clip;
   pointer-events: none;
 }
 
-.pet-walker {
+.pet-actor {
   position: absolute;
-  left: 16px;
-  bottom: 18px;
-  display: grid;
-  width: 60px;
-  justify-items: center;
-  animation: pet-wander 22s ease-in-out infinite alternate;
-  pointer-events: auto;
-  will-change: transform;
+  bottom: 0;
+  left: var(--pet-x, 28%);
+  width: 108px;
+  height: 82px;
+  pointer-events: none;
+  transform: translateX(-50%);
+  will-change: left;
 }
 
-.pet-walker--dog {
-  bottom: 68px;
-  animation-duration: 29s;
-  animation-delay: -14.5s;
+.pet-actor--dog {
+  left: var(--pet-x, 72%);
 }
 
 .pet-button {
-  position: relative;
-  display: grid;
-  width: 60px;
-  height: 48px;
-  place-items: center;
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
   padding: 0;
   border: 0;
-  border-radius: 8px;
   background: transparent;
-  color: var(--text);
   cursor: pointer;
-  transition:
-    transform 180ms ease;
-}
-
-.pet-button:hover,
-.pet-button:focus-visible {
-  transform: translateY(-2px) scale(1.05);
-  filter: drop-shadow(0 3px 5px color-mix(in srgb, var(--accent) 45%, transparent));
+  pointer-events: auto;
 }
 
 .pet-button:focus-visible {
-  outline: 2px solid var(--accent);
-  outline-offset: 3px;
+  outline: 2px dashed var(--accent);
+  outline-offset: 2px;
+}
+
+.pet-facing {
+  position: absolute;
+  inset: 0;
+  display: block;
+  transform: scaleX(var(--pet-facing, 1));
+  transform-origin: center bottom;
+  transition: transform 180ms ease-out;
 }
 
 .pet-art {
+  position: absolute;
+  right: 0;
+  bottom: 0;
   display: block;
-  width: 60px;
-  height: 44px;
+  width: 100%;
+  height: 100%;
   overflow: visible;
   filter: drop-shadow(0 3px 2px #0003);
 }
 
-.pet-body {
-  animation: pet-run-bob 240ms ease-in-out infinite alternate;
+.pet-tail {
+  stroke: var(--accent);
+  stroke-width: 5;
+  stroke-linecap: round;
   transform-box: fill-box;
-  transform-origin: center bottom;
+  transform-origin: right center;
 }
 
-.pet-body ellipse,
-.pet-body circle,
-.pet-body > path:not(.pet-face-detail) {
+.pet-body .pet-torso,
+.pet-head .pet-face,
+.pet-head .pet-ear {
   fill: var(--accent);
   stroke: var(--accent-text);
   stroke-width: 1.5;
   stroke-linejoin: round;
 }
 
-.pet-body .pet-ear {
-  fill: var(--panel-raised);
+.pet-body,
+.pet-head {
+  transform-box: fill-box;
+  transform-origin: center bottom;
+  transition: transform 240ms ease;
 }
 
-.pet-body .pet-face-detail {
-  fill: none;
+.pet-body .pet-collar {
+  fill: var(--accent-text);
   stroke: var(--accent-text);
   stroke-width: 1;
+}
+
+.pet-head .pet-ear-inner {
+  fill: var(--panel-raised);
+  stroke: var(--accent-text);
+  stroke-width: 1;
+}
+
+.pet-head .pet-muzzle {
+  fill: var(--panel-raised);
+  stroke: var(--accent-text);
+  stroke-width: 1;
+}
+
+.pet-face-detail {
+  fill: none;
+  stroke: var(--accent-text);
+  stroke-width: 1.5;
   stroke-linecap: round;
 }
 
-.pet-body .pet-nose {
+.pet-nose {
   fill: var(--accent-text);
   stroke: none;
 }
 
-.pet-legs .pet-leg {
+.pet-lick {
+  fill: none;
+  stroke: var(--accent-text);
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  opacity: 0;
+}
+
+.pet-markings {
+  fill: none;
+  stroke: color-mix(in srgb, var(--panel-raised) 80%, var(--accent));
+  stroke-width: 2;
+  stroke-linecap: round;
+}
+
+.pet-leg {
   fill: none;
   stroke: var(--accent);
-  stroke-width: 4;
+  stroke-width: 5;
   stroke-linecap: round;
-  animation: pet-run-leg 240ms ease-in-out infinite alternate;
+  transform-box: fill-box;
+  transform-origin: top center;
+  transition:
+    transform 220ms ease,
+    opacity 180ms ease;
+}
+
+.pet-ground-shadow {
+  position: absolute;
+  bottom: 4px;
+  left: 50%;
+  width: 53%;
+  height: 6px;
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--accent-text) 24%, transparent);
+  filter: blur(2px);
+  transform: translateX(-50%);
+  transition:
+    width 180ms ease,
+    opacity 180ms ease;
+}
+
+.pet-actor[data-activity="walk"] .pet-leg,
+.pet-actor[data-activity="follow"] .pet-leg {
+  animation: pet-walk-leg 360ms ease-in-out infinite alternate;
+}
+
+.pet-actor[data-activity="walk"] .pet-leg--two,
+.pet-actor[data-activity="walk"] .pet-leg--four,
+.pet-actor[data-activity="follow"] .pet-leg--two,
+.pet-actor[data-activity="follow"] .pet-leg--four {
+  animation-delay: -180ms;
+}
+
+.pet-actor[data-activity="walk"] .pet-body,
+.pet-actor[data-activity="follow"] .pet-body {
+  animation: pet-walk-body 360ms ease-in-out infinite alternate;
+  transform-box: fill-box;
+  transform-origin: center bottom;
+}
+
+.pet-actor[data-activity="run"] .pet-leg {
+  animation: pet-run-leg 210ms ease-in-out infinite alternate;
+}
+
+.pet-actor[data-activity="run"] .pet-leg--two,
+.pet-actor[data-activity="run"] .pet-leg--four {
+  animation-delay: -105ms;
+}
+
+.pet-actor[data-activity="run"] .pet-body {
+  animation: pet-run-body 210ms ease-in-out infinite alternate;
+  transform-box: fill-box;
+  transform-origin: center bottom;
+}
+
+.pet-actor[data-activity="sit"] .pet-body {
+  transform: translateY(-5px) rotate(-5deg);
+  transform-box: fill-box;
+  transform-origin: 55% 100%;
+}
+
+.pet-actor[data-activity="sit"] .pet-leg--hind {
+  transform: rotate(48deg);
+}
+
+.pet-actor[data-activity="sit"] .pet-leg--front {
+  transform: rotate(-6deg);
+}
+
+.pet-actor[data-activity="stand"] .pet-tail,
+.pet-actor[data-activity="sniff"] .pet-tail {
+  animation: pet-tail-idle 1.2s ease-in-out infinite alternate;
+}
+
+.pet-actor[data-activity="wag"] .pet-tail,
+.pet-actor[data-activity="play"] .pet-tail {
+  animation: pet-tail-wag 120ms ease-in-out infinite alternate;
+}
+
+.pet-actor--cat[data-activity="stand"] .pet-tail,
+.pet-actor--cat[data-activity="walk"] .pet-tail,
+.pet-actor--cat[data-activity="run"] .pet-tail {
+  animation: pet-cat-tail 620ms ease-in-out infinite alternate;
+}
+
+.pet-actor[data-activity="stretch"] .pet-body {
+  animation: pet-stretch-body 900ms ease-in-out both;
+  transform-box: fill-box;
+  transform-origin: 25% 100%;
+}
+
+.pet-actor[data-activity="stretch"] .pet-leg--front {
+  animation: pet-stretch-paw 850ms ease-in-out both;
   transform-box: fill-box;
   transform-origin: top center;
 }
 
-.pet-leg--two,
-.pet-leg--four {
-  animation-delay: -120ms !important;
-}
-
-.pet-tail {
-  fill: none;
-  stroke: var(--accent);
-  stroke-width: 4;
-  stroke-linecap: round;
-  animation: pet-tail-wag 280ms ease-in-out infinite alternate;
+.pet-actor[data-activity="groom"] .pet-head {
+  animation: pet-groom 500ms ease-in-out infinite alternate;
   transform-box: fill-box;
-  transform-origin: right center;
+  transform-origin: 20% 80%;
 }
 
-.pet-art--dog .pet-tail {
-  animation-duration: 180ms;
+.pet-actor[data-activity="groom"] .pet-lick {
+  animation: pet-lick 300ms ease-in-out infinite alternate;
 }
 
-.pet-button.is-reacting .pet-art {
-  animation: pet-hop 280ms ease-in-out 3 alternate;
+.pet-actor[data-activity="lie"] .pet-body,
+.pet-actor[data-activity="sleep"] .pet-body {
+  transform: translateY(7px) scaleY(0.8);
+  transform-box: fill-box;
+  transform-origin: center bottom;
 }
 
-.pet-button.is-reacting .pet-tail {
-  animation-duration: 90ms;
+.pet-actor[data-activity="lie"] .pet-head,
+.pet-actor[data-activity="sleep"] .pet-head {
+  transform: translateY(7px) rotate(12deg);
+  transform-box: fill-box;
+  transform-origin: 20% 80%;
+}
+
+.pet-actor[data-activity="lie"] .pet-leg,
+.pet-actor[data-activity="sleep"] .pet-leg {
+  opacity: 0.35;
+}
+
+.pet-actor[data-activity="sleep"] .pet-body {
+  animation: pet-sleep 1.8s ease-in-out infinite alternate;
+}
+
+.pet-actor--dog[data-activity="sniff"] .pet-head {
+  animation: pet-sniff 430ms ease-in-out infinite alternate;
+  transform-box: fill-box;
+  transform-origin: 10% 80%;
+}
+
+.pet-actor[data-activity="jump"] .pet-facing,
+.pet-actor[data-activity="play"] .pet-facing {
+  animation: pet-hop 560ms cubic-bezier(0.3, 0, 0.4, 1) 2;
+}
+
+.pet-actor[data-activity="jump"] .pet-ground-shadow,
+.pet-actor[data-activity="play"] .pet-ground-shadow {
+  animation: pet-shadow-hop 560ms ease-in-out 2;
+}
+
+.pet-actor[data-activity="jump"] .pet-leg,
+.pet-actor[data-activity="play"] .pet-leg {
+  animation: pet-tuck-paws 560ms ease-in-out 2;
+}
+
+.pet-actor[data-activity="turn"] .pet-facing {
+  transition-duration: 260ms;
+}
+
+.pet-actor[data-activity="turn"] .pet-body {
+  animation: pet-turn 260ms ease-out;
+  transform-box: fill-box;
+  transform-origin: center bottom;
+}
+
+.pet-status {
+  position: absolute;
+  top: -4px;
+  right: 5px;
+  color: var(--accent);
+  font: 700 10px/1 "Poppins", sans-serif;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(4px) rotate(-8deg);
+  transition:
+    opacity 180ms ease,
+    transform 180ms ease;
+}
+
+.pet-actor[data-activity="sleep"] .pet-status,
+.pet-actor[data-activity="sniff"] .pet-status,
+.pet-actor[data-activity="play"] .pet-status {
+  opacity: 0.9;
+  transform: translateY(-2px) rotate(-8deg);
 }
 
 .pet-sound {
   position: absolute;
-  bottom: calc(100% + 8px);
+  z-index: 1;
+  bottom: calc(100% - 7px);
   left: 50%;
   padding: 5px 8px;
   border: 1px solid var(--line);
@@ -4007,90 +4200,131 @@ video {
   transform: translate(-50%, 0);
 }
 
-@keyframes pet-wander {
-  from {
-    transform: translateX(0);
-  }
-  to {
-    transform: translateX(calc(100vw - 92px));
-  }
-}
-
-@keyframes pet-run-bob {
-  to {
-    transform: translateY(-2px);
-  }
+@keyframes pet-walk-leg {
+  from { transform: rotate(23deg); }
+  to { transform: rotate(-23deg); }
 }
 
 @keyframes pet-run-leg {
-  from {
-    transform: rotate(28deg);
-  }
-  to {
-    transform: rotate(-28deg);
-  }
+  from { transform: rotate(45deg) translateY(-1px); }
+  to { transform: rotate(-42deg) translateY(-1px); }
+}
+
+@keyframes pet-walk-body {
+  from { transform: translateY(0); }
+  to { transform: translateY(-2px); }
+}
+
+@keyframes pet-run-body {
+  from { transform: translateY(1px) rotate(-2deg); }
+  to { transform: translateY(-3px) rotate(2deg); }
 }
 
 @keyframes pet-tail-wag {
-  from {
-    transform: rotate(-12deg);
-  }
-  to {
-    transform: rotate(18deg);
-  }
+  from { transform: rotate(-28deg); }
+  to { transform: rotate(34deg); }
+}
+
+@keyframes pet-tail-idle {
+  from { transform: rotate(-7deg); }
+  to { transform: rotate(8deg); }
+}
+
+@keyframes pet-cat-tail {
+  from { transform: rotate(-18deg); }
+  to { transform: rotate(20deg); }
+}
+
+@keyframes pet-stretch-body {
+  0%, 100% { transform: translateY(0) scaleY(1); }
+  45% { transform: translateY(4px) scaleY(0.86); }
+}
+
+@keyframes pet-stretch-paw {
+  from { transform: rotate(0); }
+  55%, 100% { transform: rotate(32deg) translateY(2px); }
+}
+
+@keyframes pet-groom {
+  from { transform: rotate(4deg); }
+  to { transform: rotate(22deg); }
+}
+
+@keyframes pet-lick {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes pet-sleep {
+  from { transform: translateY(6px) scaleY(0.8); }
+  to { transform: translateY(7px) scaleY(0.77); }
+}
+
+@keyframes pet-sniff {
+  from { transform: rotate(0); }
+  to { transform: rotate(12deg) translateY(2px); }
 }
 
 @keyframes pet-hop {
-  to {
-    transform: translateY(-9px) rotate(8deg) scale(1.08);
-  }
+  0%, 100% { translate: 0 0; }
+  48% { translate: 0 -16px; }
+}
+
+@keyframes pet-shadow-hop {
+  0%, 100% { width: 53%; opacity: 0.9; }
+  48% { width: 34%; opacity: 0.45; }
+}
+
+@keyframes pet-tuck-paws {
+  0%, 100% { transform: rotate(0); }
+  48% { transform: rotate(25deg); }
+}
+
+@keyframes pet-turn {
+  50% { transform: rotate(-8deg); }
 }
 
 @media (max-width: 680px) {
-  .pet-walker {
-    left: 10px;
-    bottom: calc(12px + env(safe-area-inset-bottom));
-    width: 52px;
-    animation-duration: 26s;
+  .pet-companions {
+    height: 78px;
   }
 
-  .pet-walker--dog {
-    bottom: calc(58px + env(safe-area-inset-bottom));
-    animation-duration: 34s;
-    animation-delay: -17s;
+  .pet-actor {
+    width: 88px;
+    height: 68px;
   }
 
   .pet-button {
-    width: 52px;
-    height: 44px;
+    padding: 0;
   }
 
-  .pet-art {
-    width: 52px;
-    height: 38px;
-  }
-
-  @keyframes pet-wander {
-    from {
-      transform: translateX(0);
-    }
-    to {
-      transform: translateX(calc(100vw - 72px));
-    }
+  .pet-status {
+    font-size: 9px;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .pet-walker,
-  .pet-body,
-  .pet-legs .pet-leg,
+  .pet-actor,
+  .pet-facing,
+  .pet-art,
   .pet-tail,
-  .pet-button.is-reacting .pet-art {
-    animation: none;
+  .pet-body,
+  .pet-head,
+  .pet-leg,
+  .pet-lick,
+  .pet-ground-shadow,
+  .pet-status,
+  .pet-sound,
+  .pet-button {
+    animation: none !important;
+    transition: none !important;
   }
 
-  .pet-walker--dog {
-    right: 16px;
-    left: auto;
+  .pet-actor--cat {
+    left: 20%;
+  }
+
+  .pet-actor--dog {
+    left: 80%;
   }
 }

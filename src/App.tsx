@@ -53,12 +53,43 @@ function PixelLabel({ children }: { children: React.ReactNode }) {
   return <span className="pixel-label">{children}</span>;
 }
 
+type PetKind = "cat" | "dog";
+type PetActivity =
+  | "walk"
+  | "run"
+  | "turn"
+  | "sit"
+  | "stand"
+  | "stretch"
+  | "groom"
+  | "lie"
+  | "sleep"
+  | "jump"
+  | "play"
+  | "sniff"
+  | "wag"
+  | "follow";
+
+type PetAgent = {
+  x: number;
+  direction: -1 | 1;
+  activity: PetActivity;
+  until: number;
+  mouseCooldown: number;
+};
+
 function MovingPet({
   kind,
+  activity,
   sound,
+  onInteract,
+  actorRef,
 }: {
-  kind: "cat" | "dog";
+  kind: PetKind;
+  activity: PetActivity;
   sound: string;
+  onInteract: (kind: PetKind) => void;
+  actorRef: (element: HTMLDivElement | null) => void;
 }) {
   const [reacting, setReacting] = useState(false);
   const [showSound, setShowSound] = useState(false);
@@ -79,12 +110,20 @@ function MovingPet({
       setReacting(false);
       setShowSound(false);
     }, 1150);
+    onInteract(kind);
   };
 
   return (
-    <div className={`pet-walker pet-walker--${kind}`}>
+    <div
+      ref={actorRef}
+      className={`pet-actor pet-actor--${kind}`}
+      data-activity={activity}
+    >
       <span className={`pet-sound${showSound ? " is-visible" : ""}`} aria-hidden="true">
         {sound}
+      </span>
+      <span className="pet-status" aria-hidden="true">
+        {activity === "sleep" ? "Zzz" : activity === "sniff" ? "..." : activity === "play" ? "♥" : ""}
       </span>
       <button
         className={`pet-button${reacting ? " is-reacting" : ""}`}
@@ -93,7 +132,10 @@ function MovingPet({
         title={`Pet the ${kind}`}
         onClick={interact}
       >
-        <PetArt kind={kind} />
+        <span className="pet-ground-shadow" aria-hidden="true" />
+        <span className="pet-facing" aria-hidden="true">
+          <PetArt kind={kind} />
+        </span>
       </button>
     </div>
   );
@@ -103,36 +145,60 @@ function PetArt({ kind }: { kind: "cat" | "dog" }) {
   const isCat = kind === "cat";
 
   return (
-    <svg className={`pet-art pet-art--${kind}`} viewBox="0 0 64 44" aria-hidden="true">
-      <g className="pet-tail">
+    <svg className={`pet-art pet-art--${kind}`} viewBox="0 0 100 72" aria-hidden="true">
+      <g className="pet-tail" fill="none">
         {isCat ? (
-          <path d="M13 27C5 25 6 15 12 11" />
+          <path d="M24 43C10 45 8 31 19 24" />
         ) : (
-          <path d="M12 25C6 24 6 19 3 18" />
+          <path d="M24 43C13 42 13 35 8 34" />
         )}
       </g>
       <g className="pet-legs">
-        <path className="pet-leg pet-leg--one" d="M19 28l-2 10" />
-        <path className="pet-leg pet-leg--two" d="M27 30l1 9" />
-        <path className="pet-leg pet-leg--three" d="M37 29l-1 10" />
-        <path className="pet-leg pet-leg--four" d="M44 27l3 11" />
+        <path className="pet-leg pet-leg--one pet-leg--hind" d="M32 48l-3 20" />
+        <path className="pet-leg pet-leg--two pet-leg--hind" d="M43 49l1 19" />
+        <path className="pet-leg pet-leg--three pet-leg--front" d="M58 48l-1 20" />
+        <path className="pet-leg pet-leg--four pet-leg--front" d="M68 46l4 22" />
       </g>
       <g className="pet-body">
-        <ellipse cx="29" cy="25" rx="16" ry="9" />
+        {isCat ? (
+          <path
+            className="pet-torso"
+            d="M20 43c2-11 12-15 24-13l15 3c9 2 14 8 14 16-9 8-36 8-50 3-4-2-5-5-3-9Z"
+          />
+        ) : (
+          <path
+            className="pet-torso"
+            d="M18 41c3-11 15-14 29-12l13 2c10 2 16 8 15 17-10 8-37 8-51 4-5-2-7-6-6-11Z"
+          />
+        )}
+        <path className="pet-collar" d="M61 36q5 3 9 1l-2 7q-5 2-9-1Z" />
+      </g>
+      <g className="pet-head">
         {isCat ? (
           <>
-            <circle cx="45" cy="19" r="8" />
-            <path d="M38 14l1-8 6 6M46 12l6-6 1 9" />
-            <path className="pet-face-detail" d="M48 21h1m-5 3q2 2 4 0m-11-1-6-2m6 5-6 1" />
+            <path className="pet-ear" d="m59 25 1-14 11 9m-4 4 9-12 4 16" />
+            <path className="pet-face" d="M58 29c2-8 14-10 22-4 7 5 5 16-3 19-9 4-20-2-19-15Z" />
+            <path className="pet-face-detail" d="M64 30v1m10-1v1m-6 5q2 2 4 0m-10 1-8-2m8 5-8 2m21-5 7-2m-7 5 7 2" />
+            <path className="pet-nose" d="m68 34 2 1-2 2-2-2Z" />
+            <path className="pet-lick" d="M69 37q1 4 3 0" />
           </>
         ) : (
           <>
-            <ellipse cx="44" cy="19" rx="8" ry="7" />
-            <ellipse className="pet-ear" cx="39" cy="15" rx="3" ry="6" />
-            <ellipse cx="51" cy="22" rx="6" ry="4" />
-            <path className="pet-face-detail" d="M46 18h1m3 6q-2 2-4 0" />
-            <circle className="pet-nose" cx="56" cy="21" r="1.6" />
+            <path className="pet-ear" d="M63 25c-7-2-8-12-3-15 6-3 10 6 8 13Z" />
+            <path className="pet-face" d="M62 25c1-8 11-11 19-7 6 3 8 10 5 15-2 4-7 7-13 6-8 0-13-6-11-14Z" />
+            <path className="pet-muzzle" d="M78 31c5-5 13-3 16 1 1 3-3 7-9 7-5 0-8-3-7-8Z" />
+            <path className="pet-ear-inner" d="M63 16c-2 1-2 6 1 8l2-7Z" />
+            <path className="pet-face-detail" d="M69 25v1m10-1v1m-6 5q2 2 4 0" />
+            <circle className="pet-nose" cx="92" cy="33" r="2" />
+            <path className="pet-lick" d="M85 37q2 5 5 0" />
           </>
+        )}
+      </g>
+      <g className="pet-markings" aria-hidden="true">
+        {isCat ? (
+          <path d="M31 37q7-7 12-4" />
+        ) : (
+          <path d="M29 35q7-6 12-3" />
         )}
       </g>
     </svg>
@@ -140,10 +206,189 @@ function PetArt({ kind }: { kind: "cat" | "dog" }) {
 }
 
 function PetCompanions() {
+  const [activities, setActivities] = useState<Record<PetKind, PetActivity>>({
+    cat: "walk",
+    dog: "walk",
+  });
+  const actors = useRef<Record<PetKind, PetAgent>>({
+    cat: { x: 28, direction: 1, activity: "walk", until: 0, mouseCooldown: 0 },
+    dog: { x: 72, direction: -1, activity: "walk", until: 0, mouseCooldown: 0 },
+  });
+  const actorElements = useRef<Record<PetKind, HTMLDivElement | null>>({
+    cat: null,
+    dog: null,
+  });
+
+  useEffect(() => {
+    const now = performance.now();
+    const cat = actors.current.cat;
+    const dog = actors.current.dog;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      cat.x = 20;
+      dog.x = 80;
+      cat.activity = "stand";
+      dog.activity = "stand";
+      setActivities({ cat: "stand", dog: "stand" });
+      return;
+    }
+    cat.until = now + 1500;
+    dog.until = now + 2200;
+    let nextPlay = now + 12000;
+    let nextFollow = now + 6000;
+    let previousFrame = now;
+    let frame = 0;
+    let changed = false;
+
+    const pickAction = (kind: PetKind): [PetActivity, number] => {
+      const choices: Record<PetKind, Array<[PetActivity, number]>> = {
+        cat: [
+          ["walk", 5], ["walk", 5], ["walk", 5], ["run", 2], ["sit", 3],
+          ["stretch", 2], ["groom", 3], ["lie", 2], ["sleep", 2],
+          ["stand", 2], ["jump", 1],
+        ],
+        dog: [
+          ["walk", 5], ["walk", 5], ["walk", 5], ["run", 3], ["sit", 3],
+          ["jump", 2], ["play", 2], ["sniff", 3], ["wag", 3], ["stand", 2],
+        ],
+      };
+      const [activity] = choices[kind][Math.floor(Math.random() * choices[kind].length)];
+      const durations: Record<PetActivity, [number, number]> = {
+        walk: [1500, 3400], run: [900, 1900], turn: [280, 420],
+        sit: [1500, 2800], stand: [900, 1800], stretch: [1100, 1900],
+        groom: [1500, 2600], lie: [1300, 2200], sleep: [2200, 3800],
+        jump: [700, 1100], play: [1200, 2000], sniff: [1200, 2100],
+        wag: [1000, 1900], follow: [1300, 2100],
+      };
+      const [min, max] = durations[activity];
+      return [activity, min + Math.random() * (max - min)];
+    };
+
+    const setAction = (
+      actor: PetAgent,
+      activity: PetActivity,
+      time: number,
+      duration: number,
+    ) => {
+      actor.activity = activity;
+      actor.until = time + duration;
+      changed = true;
+    };
+
+    const tick = (time: number) => {
+      const delta = Math.min((time - previousFrame) / 1000, 0.05);
+      previousFrame = time;
+      changed = false;
+
+      for (const kind of ["cat", "dog"] as const) {
+        const actor = actors.current[kind];
+        if (time >= actor.until) {
+          const [activity, duration] = pickAction(kind);
+          setAction(actor, activity, time, duration);
+        }
+
+        const element = actorElements.current[kind];
+        const margin = element
+          ? Math.min(18, (element.offsetWidth / window.innerWidth) * 50 + 1)
+          : 10;
+        const minX = margin;
+        const maxX = 100 - margin;
+        const speeds: Partial<Record<PetActivity, number>> = {
+          walk: kind === "cat" ? 3.2 : 3.9,
+          run: kind === "cat" ? 8 : 10,
+          follow: 5.1,
+        };
+        const speed = speeds[actor.activity];
+        if (speed) {
+          actor.x += actor.direction * speed * delta;
+          if (actor.x <= minX || actor.x >= maxX) {
+            actor.x = Math.max(minX, Math.min(maxX, actor.x));
+            actor.direction = actor.direction === 1 ? -1 : 1;
+            setAction(actor, "turn", time, 360);
+          }
+        }
+
+        if (element) {
+          element.style.setProperty("--pet-x", `${actor.x}%`);
+          element.style.setProperty("--pet-facing", String(actor.direction));
+        }
+      }
+
+      const distance = Math.abs(cat.x - dog.x);
+      if (distance < 8 && time >= nextPlay) {
+        cat.direction = cat.x <= dog.x ? 1 : -1;
+        dog.direction = cat.x <= dog.x ? -1 : 1;
+        setAction(cat, "play", time, 2300);
+        setAction(dog, "play", time, 2300);
+        nextPlay = time + 26000 + Math.random() * 14000;
+      } else if (
+        distance < 22 && time >= nextFollow &&
+        ["walk", "run", "stand", "sniff", "wag"].includes(dog.activity)
+      ) {
+        dog.direction = cat.x < dog.x ? -1 : 1;
+        setAction(dog, "follow", time, 1900);
+        nextFollow = time + 18000 + Math.random() * 12000;
+      }
+
+      if (changed) {
+        setActivities({ cat: cat.activity, dog: dog.activity });
+      }
+      frame = window.requestAnimationFrame(tick);
+    };
+
+    const onPointerMove = (event: PointerEvent) => {
+      if (event.pointerType !== "mouse") return;
+      const time = performance.now();
+      for (const kind of ["cat", "dog"] as const) {
+        const actor = actors.current[kind];
+        const element = actorElements.current[kind];
+        if (!element || time < actor.mouseCooldown) continue;
+        const bounds = element.getBoundingClientRect();
+        const centerX = bounds.left + bounds.width / 2;
+        const centerY = bounds.top + bounds.height / 2;
+        if (Math.hypot(event.clientX - centerX, event.clientY - centerY) < 76) {
+          const activity: PetActivity = kind === "cat" ? "stretch" : "wag";
+          setAction(actor, activity, time, 1200);
+          actor.mouseCooldown = time + 8500;
+          setActivities((current) => ({ ...current, [kind]: activity }));
+          break;
+        }
+      }
+    };
+
+    frame = window.requestAnimationFrame(tick);
+    window.addEventListener("pointermove", onPointerMove, { passive: true });
+    return () => {
+      window.cancelAnimationFrame(frame);
+      window.removeEventListener("pointermove", onPointerMove);
+    };
+  }, []);
+
+  const interact = (kind: PetKind) => {
+    const actor = actors.current[kind];
+    const activity: PetActivity = kind === "cat"
+      ? ["jump", "stretch", "groom"][Math.floor(Math.random() * 3)] as PetActivity
+      : ["jump", "play", "wag"][Math.floor(Math.random() * 3)] as PetActivity;
+    actor.activity = activity;
+    actor.until = performance.now() + (activity === "jump" ? 1100 : 1800);
+    setActivities((current) => ({ ...current, [kind]: activity }));
+  };
+
   return (
     <div className="pet-companions" role="group" aria-label="Interactive pets">
-      <MovingPet kind="cat" sound="Meow!" />
-      <MovingPet kind="dog" sound="Woof!" />
+      <MovingPet
+        kind="cat"
+        activity={activities.cat}
+        sound="Meow!"
+        onInteract={interact}
+        actorRef={(element) => { actorElements.current.cat = element; }}
+      />
+      <MovingPet
+        kind="dog"
+        activity={activities.dog}
+        sound="Woof!"
+        onInteract={interact}
+        actorRef={(element) => { actorElements.current.dog = element; }}
+      />
     </div>
   );
 }
