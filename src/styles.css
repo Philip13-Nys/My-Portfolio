@@ -3866,44 +3866,39 @@ video {
   left: 16px;
   bottom: 18px;
   display: grid;
-  width: 44px;
+  width: 60px;
   justify-items: center;
-  animation: pet-wander 30s ease-in-out infinite alternate;
+  animation: pet-wander 22s ease-in-out infinite alternate;
   pointer-events: auto;
   will-change: transform;
 }
 
 .pet-walker--dog {
   bottom: 68px;
-  animation-duration: 38s;
-  animation-delay: -19s;
+  animation-duration: 29s;
+  animation-delay: -14.5s;
 }
 
 .pet-button {
   position: relative;
   display: grid;
-  width: 44px;
-  height: 44px;
+  width: 60px;
+  height: 48px;
   place-items: center;
   padding: 0;
-  border: 1px solid var(--line);
-  border-radius: 50%;
-  background: color-mix(in srgb, var(--panel) 88%, transparent);
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
   color: var(--text);
-  box-shadow: 0 4px 16px #0003;
   cursor: pointer;
-  backdrop-filter: blur(6px);
   transition:
-    border-color 180ms ease,
-    background-color 180ms ease,
     transform 180ms ease;
 }
 
 .pet-button:hover,
 .pet-button:focus-visible {
-  transform: translateY(-3px) scale(1.06);
-  border-color: var(--accent);
-  background: var(--panel-raised);
+  transform: translateY(-2px) scale(1.05);
+  filter: drop-shadow(0 3px 5px color-mix(in srgb, var(--accent) 45%, transparent));
 }
 
 .pet-button:focus-visible {
@@ -3911,19 +3906,80 @@ video {
   outline-offset: 3px;
 }
 
-.pet-emoji {
+.pet-art {
   display: block;
-  font-size: 24px;
-  line-height: 1;
-  animation: pet-step 520ms ease-in-out infinite alternate;
+  width: 60px;
+  height: 44px;
+  overflow: visible;
+  filter: drop-shadow(0 3px 2px #0003);
 }
 
-.pet-walker--dog .pet-emoji {
-  animation-delay: -260ms;
+.pet-body {
+  animation: pet-run-bob 240ms ease-in-out infinite alternate;
+  transform-box: fill-box;
+  transform-origin: center bottom;
 }
 
-.pet-button.is-reacting .pet-emoji {
-  animation: pet-hop 260ms ease-in-out 3 alternate;
+.pet-body ellipse,
+.pet-body circle,
+.pet-body > path:not(.pet-face-detail) {
+  fill: var(--accent);
+  stroke: var(--accent-text);
+  stroke-width: 1.5;
+  stroke-linejoin: round;
+}
+
+.pet-body .pet-ear {
+  fill: var(--panel-raised);
+}
+
+.pet-body .pet-face-detail {
+  fill: none;
+  stroke: var(--accent-text);
+  stroke-width: 1;
+  stroke-linecap: round;
+}
+
+.pet-body .pet-nose {
+  fill: var(--accent-text);
+  stroke: none;
+}
+
+.pet-legs .pet-leg {
+  fill: none;
+  stroke: var(--accent);
+  stroke-width: 4;
+  stroke-linecap: round;
+  animation: pet-run-leg 240ms ease-in-out infinite alternate;
+  transform-box: fill-box;
+  transform-origin: top center;
+}
+
+.pet-leg--two,
+.pet-leg--four {
+  animation-delay: -120ms !important;
+}
+
+.pet-tail {
+  fill: none;
+  stroke: var(--accent);
+  stroke-width: 4;
+  stroke-linecap: round;
+  animation: pet-tail-wag 280ms ease-in-out infinite alternate;
+  transform-box: fill-box;
+  transform-origin: right center;
+}
+
+.pet-art--dog .pet-tail {
+  animation-duration: 180ms;
+}
+
+.pet-button.is-reacting .pet-art {
+  animation: pet-hop 280ms ease-in-out 3 alternate;
+}
+
+.pet-button.is-reacting .pet-tail {
+  animation-duration: 90ms;
 }
 
 .pet-sound {
@@ -3956,13 +4012,31 @@ video {
     transform: translateX(0);
   }
   to {
-    transform: translateX(calc(100vw - 76px));
+    transform: translateX(calc(100vw - 92px));
   }
 }
 
-@keyframes pet-step {
+@keyframes pet-run-bob {
   to {
-    transform: translateY(-3px) rotate(-4deg);
+    transform: translateY(-2px);
+  }
+}
+
+@keyframes pet-run-leg {
+  from {
+    transform: rotate(28deg);
+  }
+  to {
+    transform: rotate(-28deg);
+  }
+}
+
+@keyframes pet-tail-wag {
+  from {
+    transform: rotate(-12deg);
+  }
+  to {
+    transform: rotate(18deg);
   }
 }
 
@@ -3976,23 +4050,24 @@ video {
   .pet-walker {
     left: 10px;
     bottom: calc(12px + env(safe-area-inset-bottom));
-    width: 40px;
-    animation-duration: 36s;
+    width: 52px;
+    animation-duration: 26s;
   }
 
   .pet-walker--dog {
     bottom: calc(58px + env(safe-area-inset-bottom));
-    animation-duration: 44s;
-    animation-delay: -22s;
+    animation-duration: 34s;
+    animation-delay: -17s;
   }
 
   .pet-button {
-    width: 40px;
-    height: 40px;
+    width: 52px;
+    height: 44px;
   }
 
-  .pet-emoji {
-    font-size: 22px;
+  .pet-art {
+    width: 52px;
+    height: 38px;
   }
 
   @keyframes pet-wander {
@@ -4000,15 +4075,17 @@ video {
       transform: translateX(0);
     }
     to {
-      transform: translateX(calc(100vw - 60px));
+      transform: translateX(calc(100vw - 72px));
     }
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .pet-walker,
-  .pet-emoji,
-  .pet-button.is-reacting .pet-emoji {
+  .pet-body,
+  .pet-legs .pet-leg,
+  .pet-tail,
+  .pet-button.is-reacting .pet-art {
     animation: none;
   }
 

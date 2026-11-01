@@ -55,11 +55,9 @@ function PixelLabel({ children }: { children: React.ReactNode }) {
 
 function MovingPet({
   kind,
-  emoji,
   sound,
 }: {
   kind: "cat" | "dog";
-  emoji: string;
   sound: string;
 }) {
   const [reacting, setReacting] = useState(false);
@@ -95,19 +93,57 @@ function MovingPet({
         title={`Pet the ${kind}`}
         onClick={interact}
       >
-        <span className="pet-emoji" aria-hidden="true">
-          {emoji}
-        </span>
+        <PetArt kind={kind} />
       </button>
     </div>
+  );
+}
+
+function PetArt({ kind }: { kind: "cat" | "dog" }) {
+  const isCat = kind === "cat";
+
+  return (
+    <svg className={`pet-art pet-art--${kind}`} viewBox="0 0 64 44" aria-hidden="true">
+      <g className="pet-tail">
+        {isCat ? (
+          <path d="M13 27C5 25 6 15 12 11" />
+        ) : (
+          <path d="M12 25C6 24 6 19 3 18" />
+        )}
+      </g>
+      <g className="pet-legs">
+        <path className="pet-leg pet-leg--one" d="M19 28l-2 10" />
+        <path className="pet-leg pet-leg--two" d="M27 30l1 9" />
+        <path className="pet-leg pet-leg--three" d="M37 29l-1 10" />
+        <path className="pet-leg pet-leg--four" d="M44 27l3 11" />
+      </g>
+      <g className="pet-body">
+        <ellipse cx="29" cy="25" rx="16" ry="9" />
+        {isCat ? (
+          <>
+            <circle cx="45" cy="19" r="8" />
+            <path d="M38 14l1-8 6 6M46 12l6-6 1 9" />
+            <path className="pet-face-detail" d="M48 21h1m-5 3q2 2 4 0m-11-1-6-2m6 5-6 1" />
+          </>
+        ) : (
+          <>
+            <ellipse cx="44" cy="19" rx="8" ry="7" />
+            <ellipse className="pet-ear" cx="39" cy="15" rx="3" ry="6" />
+            <ellipse cx="51" cy="22" rx="6" ry="4" />
+            <path className="pet-face-detail" d="M46 18h1m3 6q-2 2-4 0" />
+            <circle className="pet-nose" cx="56" cy="21" r="1.6" />
+          </>
+        )}
+      </g>
+    </svg>
   );
 }
 
 function PetCompanions() {
   return (
     <div className="pet-companions" role="group" aria-label="Interactive pets">
-      <MovingPet kind="cat" emoji="🐈" sound="Meow!" />
-      <MovingPet kind="dog" emoji="🐕" sound="Woof!" />
+      <MovingPet kind="cat" sound="Meow!" />
+      <MovingPet kind="dog" sound="Woof!" />
     </div>
   );
 }
