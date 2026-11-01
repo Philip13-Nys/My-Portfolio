@@ -16,7 +16,7 @@ import {
   Github,
   Linkedin,
 } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   certifications,
   education,
@@ -52,6 +52,66 @@ type GitHubContributionsResponse = {
 function PixelLabel({ children }: { children: React.ReactNode }) {
   return <span className="pixel-label">{children}</span>;
 }
+
+function MovingPet({
+  kind,
+  emoji,
+  sound,
+}: {
+  kind: "cat" | "dog";
+  emoji: string;
+  sound: string;
+}) {
+  const [reacting, setReacting] = useState(false);
+  const [showSound, setShowSound] = useState(false);
+  const timerRef = useRef<number | undefined>(undefined);
+
+  useEffect(
+    () => () => {
+      if (timerRef.current !== undefined) window.clearTimeout(timerRef.current);
+    },
+    [],
+  );
+
+  const interact = () => {
+    setReacting(true);
+    setShowSound(true);
+    if (timerRef.current !== undefined) window.clearTimeout(timerRef.current);
+    timerRef.current = window.setTimeout(() => {
+      setReacting(false);
+      setShowSound(false);
+    }, 1150);
+  };
+
+  return (
+    <div className={`pet-walker pet-walker--${kind}`}>
+      <span className={`pet-sound${showSound ? " is-visible" : ""}`} aria-hidden="true">
+        {sound}
+      </span>
+      <button
+        className={`pet-button${reacting ? " is-reacting" : ""}`}
+        type="button"
+        aria-label={`Pet the ${kind}`}
+        title={`Pet the ${kind}`}
+        onClick={interact}
+      >
+        <span className="pet-emoji" aria-hidden="true">
+          {emoji}
+        </span>
+      </button>
+    </div>
+  );
+}
+
+function PetCompanions() {
+  return (
+    <div className="pet-companions" role="group" aria-label="Interactive pets">
+      <MovingPet kind="cat" emoji="🐈" sound="Meow!" />
+      <MovingPet kind="dog" emoji="🐕" sound="Woof!" />
+    </div>
+  );
+}
+
 function SectionHead({
   kicker,
   title,
@@ -344,6 +404,7 @@ function App() {
           </span>
         </div>
       )}
+      {!showStartup && <PetCompanions />}
       <header className="header-wrap">
         <a className="brand" href="#home">
           <span className="brand-icon">

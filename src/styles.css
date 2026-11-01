@@ -3852,3 +3852,168 @@ video {
     transition-duration: 0.01ms;
   }
 }
+
+.pet-companions {
+  position: fixed;
+  z-index: 20;
+  inset: 0;
+  overflow: clip;
+  pointer-events: none;
+}
+
+.pet-walker {
+  position: absolute;
+  left: 16px;
+  bottom: 18px;
+  display: grid;
+  width: 44px;
+  justify-items: center;
+  animation: pet-wander 30s ease-in-out infinite alternate;
+  pointer-events: auto;
+  will-change: transform;
+}
+
+.pet-walker--dog {
+  bottom: 68px;
+  animation-duration: 38s;
+  animation-delay: -19s;
+}
+
+.pet-button {
+  position: relative;
+  display: grid;
+  width: 44px;
+  height: 44px;
+  place-items: center;
+  padding: 0;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--panel) 88%, transparent);
+  color: var(--text);
+  box-shadow: 0 4px 16px #0003;
+  cursor: pointer;
+  backdrop-filter: blur(6px);
+  transition:
+    border-color 180ms ease,
+    background-color 180ms ease,
+    transform 180ms ease;
+}
+
+.pet-button:hover,
+.pet-button:focus-visible {
+  transform: translateY(-3px) scale(1.06);
+  border-color: var(--accent);
+  background: var(--panel-raised);
+}
+
+.pet-button:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+.pet-emoji {
+  display: block;
+  font-size: 24px;
+  line-height: 1;
+  animation: pet-step 520ms ease-in-out infinite alternate;
+}
+
+.pet-walker--dog .pet-emoji {
+  animation-delay: -260ms;
+}
+
+.pet-button.is-reacting .pet-emoji {
+  animation: pet-hop 260ms ease-in-out 3 alternate;
+}
+
+.pet-sound {
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 50%;
+  padding: 5px 8px;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  background: var(--panel-raised);
+  color: var(--text);
+  font: 600 8px/1.2 "Poppins", sans-serif;
+  letter-spacing: 0.04em;
+  opacity: 0;
+  pointer-events: none;
+  transform: translate(-50%, 4px);
+  transition:
+    opacity 150ms ease,
+    transform 150ms ease;
+  white-space: nowrap;
+}
+
+.pet-sound.is-visible {
+  opacity: 1;
+  transform: translate(-50%, 0);
+}
+
+@keyframes pet-wander {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(calc(100vw - 76px));
+  }
+}
+
+@keyframes pet-step {
+  to {
+    transform: translateY(-3px) rotate(-4deg);
+  }
+}
+
+@keyframes pet-hop {
+  to {
+    transform: translateY(-9px) rotate(8deg) scale(1.08);
+  }
+}
+
+@media (max-width: 680px) {
+  .pet-walker {
+    left: 10px;
+    bottom: calc(12px + env(safe-area-inset-bottom));
+    width: 40px;
+    animation-duration: 36s;
+  }
+
+  .pet-walker--dog {
+    bottom: calc(58px + env(safe-area-inset-bottom));
+    animation-duration: 44s;
+    animation-delay: -22s;
+  }
+
+  .pet-button {
+    width: 40px;
+    height: 40px;
+  }
+
+  .pet-emoji {
+    font-size: 22px;
+  }
+
+  @keyframes pet-wander {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(calc(100vw - 60px));
+    }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pet-walker,
+  .pet-emoji,
+  .pet-button.is-reacting .pet-emoji {
+    animation: none;
+  }
+
+  .pet-walker--dog {
+    right: 16px;
+    left: auto;
+  }
+}
