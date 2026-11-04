@@ -4328,3 +4328,109 @@ video {
     left: 80%;
   }
 }
+
+.portfolio-music {
+  position: fixed;
+  right: 18px;
+  bottom: calc(112px + env(safe-area-inset-bottom));
+  z-index: 30;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 8px 12px;
+  width: min(238px, calc(100vw - 32px));
+  padding: 11px 12px 8px;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: color-mix(in srgb, var(--panel) 96%, transparent);
+  color: var(--text);
+  box-shadow: 0 6px 24px #0002;
+}
+
+.music-track {
+  display: grid;
+  gap: 3px;
+  min-width: 0;
+}
+
+.music-status {
+  font: 600 6px/1.4 "Poppins", sans-serif;
+  letter-spacing: 0.12em;
+  color: var(--accent);
+}
+
+.music-track strong {
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+.music-track small {
+  color: var(--muted);
+  font-size: 8px;
+  line-height: 1.4;
+}
+
+.music-play {
+  display: grid;
+  width: 34px;
+  height: 34px;
+  place-items: center;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: var(--accent);
+  color: var(--accent-text);
+}
+
+.music-volume {
+  display: flex;
+  grid-column: 1 / -1;
+  align-items: center;
+  gap: 8px;
+}
+
+.music-volume button {
+  display: grid;
+  width: 28px;
+  height: 28px;
+  flex-shrink: 0;
+  place-items: center;
+  padding: 0;
+  border: 0;
+  border-radius: 4px;
+  background: transparent;
+  color: var(--accent);
+}
+
+.music-volume input {
+  width: 100%;
+  min-width: 0;
+  height: 22px;
+  margin: 0;
+  accent-color: var(--accent);
+  cursor: pointer;
+}
+
+.music-volume > span {
+  min-width: 32px;
+  color: var(--muted);
+  font: 500 7px/1 "Poppins", sans-serif;
+  text-align: right;
+}
+
+.portfolio-music button:focus-visible,
+.music-volume input:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+@media (max-width: 680px) {
+  .portfolio-music {
+    right: 12px;
+    bottom: calc(94px + env(safe-area-inset-bottom));
+    width: min(216px, calc(100vw - 24px));
+    padding: 9px 10px 6px;
+    gap: 5px 9px;
+  }
+}

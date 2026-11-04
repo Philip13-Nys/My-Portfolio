@@ -28,6 +28,7 @@ import {
 import profilePhoto from "./assets/philip-profile-cutout.png";
 import coverLetter from "./assets/philip-miguel-cover-letter.pdf";
 import resume from "./assets/philip-miguel-resume.pdf";
+import MusicPlayer from "./MusicPlayer";
 
 const nav = [
   ["Home", "#home"],
@@ -687,6 +688,7 @@ function App() {
         </div>
       )}
       {!showStartup && <PetCompanions />}
+      <MusicPlayer />
       <header className="header-wrap">
         <a className="brand" href="#home">
           <span className="brand-icon">
