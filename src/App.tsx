@@ -27,6 +27,7 @@ import {
 } from "./data";
 import profilePhoto from "./assets/philip-profile-cutout.png";
 import coverLetter from "./assets/philip-miguel-cover-letter.pdf";
+import resume from "./assets/philip-miguel-resume.pdf";
 
 const nav = [
   ["Home", "#home"],
@@ -1315,20 +1316,26 @@ function App() {
               <PixelLabel>08 / Documents</PixelLabel>
               <h2>My Documents</h2>
               <p>
-                A quick overview of my education, skills, and experience will be
-                available here.
+                View my résumé and cover letter for an overview of my education,
+                skills, and project experience.
               </p>
             </div>
-            <div className="resume-placeholder" role="status">
+            <a
+              className="resume-placeholder cover-placeholder"
+              href={resume}
+              target="_blank"
+              rel="noreferrer"
+              aria-label="Open Philip Miguel's résumé PDF in a new tab"
+            >
               <span className="resume-file-icon">
                 <BriefcaseBusiness size={20} />
               </span>
               <div>
-                <strong>RESUME FILE</strong>
-                <small>[Add your resume PDF here]</small>
+                <strong>RESUME</strong>
+                <small>Open the PDF in a new tab</small>
               </div>
-              <span className="resume-status">COMING SOON</span>
-            </div>
+              <span className="resume-status">VIEW PDF ↗</span>
+            </a>
 
             <a
               className="cover-placeholder"
