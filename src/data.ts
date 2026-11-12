@@ -62,7 +62,7 @@ export const projects = [
     type: "Internship discovery website",
     description:
       "A website designed to help people find internships with ease.",
-    tags: ["Web app", "[Add technologies]"],
+    tags: ["Web app", "[CSS, HTML, JavaScript]"],
     href: "https://philip13-nys.github.io/Virtuality_website/",
     art: "peach",
     image: virtualityPreview,
@@ -73,18 +73,20 @@ export const projects = [
     type: "Resort booking website",
     description:
       "Online Booking System for Diving Resort with Customer AI-Assistance, designed to provide customers with a convenient and efficient way tomake reservations and access resort services online",
-    tags: ["Resort booking", "[Add technologies]"],
+    tags: [
+      "Resort booking",
+      "[TypeScript, Tailwind CSS, HTML, React, Vite, Firebase]",
+    ],
     href: "https://diving-resort.web.app/",
     art: "lavender",
     image: divingResortPreview,
   },
   {
     number: "03",
-    title: "[Project name]",
-    type: "[Game · Creative coding · Open source]",
-    description:
-      "[A small idea, a useful tool, or a playful experiment — tell the story behind it here.]",
-    tags: ["[Tool]", "[Topic]"],
+    title: "[####]",
+    type: "[####]",
+    description: "[####]",
+    tags: ["[####]", "[###]"],
     href: "#contact",
     art: "mint",
   },
@@ -92,10 +94,10 @@ export const projects = [
 
 export const experience = [
   {
-    role: "[Role or activity]",
-    organization: "[Organization, club, or personal project]",
-    period: "[Dates]",
-    detail: "[Briefly describe your responsibilities and contribution.]",
+    role: "[####]",
+    organization: "[####]",
+    period: "[####]",
+    detail: "[#####]",
   },
 ];
 

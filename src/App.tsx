@@ -121,11 +121,20 @@ function MovingPet({
       className={`pet-actor pet-actor--${kind}`}
       data-activity={activity}
     >
-      <span className={`pet-sound${showSound ? " is-visible" : ""}`} aria-hidden="true">
+      <span
+        className={`pet-sound${showSound ? " is-visible" : ""}`}
+        aria-hidden="true"
+      >
         {sound}
       </span>
       <span className="pet-status" aria-hidden="true">
-        {activity === "sleep" ? "Zzz" : activity === "sniff" ? "..." : activity === "play" ? "♥" : ""}
+        {activity === "sleep"
+          ? "Zzz"
+          : activity === "sniff"
+            ? "..."
+            : activity === "play"
+              ? "♥"
+              : ""}
       </span>
       <button
         className={`pet-button${reacting ? " is-reacting" : ""}`}
@@ -147,7 +156,11 @@ function PetArt({ kind }: { kind: "cat" | "dog" }) {
   const isCat = kind === "cat";
 
   return (
-    <svg className={`pet-art pet-art--${kind}`} viewBox="0 0 100 72" aria-hidden="true">
+    <svg
+      className={`pet-art pet-art--${kind}`}
+      viewBox="0 0 100 72"
+      aria-hidden="true"
+    >
       <g className="pet-tail" fill="none">
         {isCat ? (
           <path d="M24 43C10 45 8 31 19 24" />
@@ -158,8 +171,14 @@ function PetArt({ kind }: { kind: "cat" | "dog" }) {
       <g className="pet-legs">
         <path className="pet-leg pet-leg--one pet-leg--hind" d="M32 48l-3 20" />
         <path className="pet-leg pet-leg--two pet-leg--hind" d="M43 49l1 19" />
-        <path className="pet-leg pet-leg--three pet-leg--front" d="M58 48l-1 20" />
-        <path className="pet-leg pet-leg--four pet-leg--front" d="M68 46l4 22" />
+        <path
+          className="pet-leg pet-leg--three pet-leg--front"
+          d="M58 48l-1 20"
+        />
+        <path
+          className="pet-leg pet-leg--four pet-leg--front"
+          d="M68 46l4 22"
+        />
       </g>
       <g className="pet-body">
         {isCat ? (
@@ -179,29 +198,43 @@ function PetArt({ kind }: { kind: "cat" | "dog" }) {
         {isCat ? (
           <>
             <path className="pet-ear" d="m59 25 1-14 11 9m-4 4 9-12 4 16" />
-            <path className="pet-face" d="M58 29c2-8 14-10 22-4 7 5 5 16-3 19-9 4-20-2-19-15Z" />
-            <path className="pet-face-detail" d="M64 30v1m10-1v1m-6 5q2 2 4 0m-10 1-8-2m8 5-8 2m21-5 7-2m-7 5 7 2" />
+            <path
+              className="pet-face"
+              d="M58 29c2-8 14-10 22-4 7 5 5 16-3 19-9 4-20-2-19-15Z"
+            />
+            <path
+              className="pet-face-detail"
+              d="M64 30v1m10-1v1m-6 5q2 2 4 0m-10 1-8-2m8 5-8 2m21-5 7-2m-7 5 7 2"
+            />
             <path className="pet-nose" d="m68 34 2 1-2 2-2-2Z" />
             <path className="pet-lick" d="M69 37q1 4 3 0" />
           </>
         ) : (
           <>
-            <path className="pet-ear" d="M63 25c-7-2-8-12-3-15 6-3 10 6 8 13Z" />
-            <path className="pet-face" d="M62 25c1-8 11-11 19-7 6 3 8 10 5 15-2 4-7 7-13 6-8 0-13-6-11-14Z" />
-            <path className="pet-muzzle" d="M78 31c5-5 13-3 16 1 1 3-3 7-9 7-5 0-8-3-7-8Z" />
+            <path
+              className="pet-ear"
+              d="M63 25c-7-2-8-12-3-15 6-3 10 6 8 13Z"
+            />
+            <path
+              className="pet-face"
+              d="M62 25c1-8 11-11 19-7 6 3 8 10 5 15-2 4-7 7-13 6-8 0-13-6-11-14Z"
+            />
+            <path
+              className="pet-muzzle"
+              d="M78 31c5-5 13-3 16 1 1 3-3 7-9 7-5 0-8-3-7-8Z"
+            />
             <path className="pet-ear-inner" d="M63 16c-2 1-2 6 1 8l2-7Z" />
-            <path className="pet-face-detail" d="M69 25v1m10-1v1m-6 5q2 2 4 0" />
+            <path
+              className="pet-face-detail"
+              d="M69 25v1m10-1v1m-6 5q2 2 4 0"
+            />
             <circle className="pet-nose" cx="92" cy="33" r="2" />
             <path className="pet-lick" d="M85 37q2 5 5 0" />
           </>
         )}
       </g>
       <g className="pet-markings" aria-hidden="true">
-        {isCat ? (
-          <path d="M31 37q7-7 12-4" />
-        ) : (
-          <path d="M29 35q7-6 12-3" />
-        )}
+        {isCat ? <path d="M31 37q7-7 12-4" /> : <path d="M29 35q7-6 12-3" />}
       </g>
     </svg>
   );
@@ -244,22 +277,48 @@ function PetCompanions() {
     const pickAction = (kind: PetKind): [PetActivity, number] => {
       const choices: Record<PetKind, Array<[PetActivity, number]>> = {
         cat: [
-          ["walk", 5], ["walk", 5], ["walk", 5], ["run", 2], ["sit", 3],
-          ["stretch", 2], ["groom", 3], ["lie", 2], ["sleep", 2],
-          ["stand", 2], ["jump", 1],
+          ["walk", 5],
+          ["walk", 5],
+          ["walk", 5],
+          ["run", 2],
+          ["sit", 3],
+          ["stretch", 2],
+          ["groom", 3],
+          ["lie", 2],
+          ["sleep", 2],
+          ["stand", 2],
+          ["jump", 1],
         ],
         dog: [
-          ["walk", 5], ["walk", 5], ["walk", 5], ["run", 3], ["sit", 3],
-          ["jump", 2], ["play", 2], ["sniff", 3], ["wag", 3], ["stand", 2],
+          ["walk", 5],
+          ["walk", 5],
+          ["walk", 5],
+          ["run", 3],
+          ["sit", 3],
+          ["jump", 2],
+          ["play", 2],
+          ["sniff", 3],
+          ["wag", 3],
+          ["stand", 2],
         ],
       };
-      const [activity] = choices[kind][Math.floor(Math.random() * choices[kind].length)];
+      const [activity] =
+        choices[kind][Math.floor(Math.random() * choices[kind].length)];
       const durations: Record<PetActivity, [number, number]> = {
-        walk: [1500, 3400], run: [900, 1900], turn: [280, 420],
-        sit: [1500, 2800], stand: [900, 1800], stretch: [1100, 1900],
-        groom: [1500, 2600], lie: [1300, 2200], sleep: [2200, 3800],
-        jump: [700, 1100], play: [1200, 2000], sniff: [1200, 2100],
-        wag: [1000, 1900], follow: [1300, 2100],
+        walk: [1500, 3400],
+        run: [900, 1900],
+        turn: [280, 420],
+        sit: [1500, 2800],
+        stand: [900, 1800],
+        stretch: [1100, 1900],
+        groom: [1500, 2600],
+        lie: [1300, 2200],
+        sleep: [2200, 3800],
+        jump: [700, 1100],
+        play: [1200, 2000],
+        sniff: [1200, 2100],
+        wag: [1000, 1900],
+        follow: [1300, 2100],
       };
       const [min, max] = durations[activity];
       return [activity, min + Math.random() * (max - min)];
@@ -323,7 +382,8 @@ function PetCompanions() {
         setAction(dog, "play", time, 2300);
         nextPlay = time + 26000 + Math.random() * 14000;
       } else if (
-        distance < 22 && time >= nextFollow &&
+        distance < 22 &&
+        time >= nextFollow &&
         ["walk", "run", "stand", "sniff", "wag"].includes(dog.activity)
       ) {
         dog.direction = cat.x < dog.x ? -1 : 1;
@@ -367,9 +427,14 @@ function PetCompanions() {
 
   const interact = (kind: PetKind) => {
     const actor = actors.current[kind];
-    const activity: PetActivity = kind === "cat"
-      ? ["jump", "stretch", "groom"][Math.floor(Math.random() * 3)] as PetActivity
-      : ["jump", "play", "wag"][Math.floor(Math.random() * 3)] as PetActivity;
+    const activity: PetActivity =
+      kind === "cat"
+        ? (["jump", "stretch", "groom"][
+            Math.floor(Math.random() * 3)
+          ] as PetActivity)
+        : (["jump", "play", "wag"][
+            Math.floor(Math.random() * 3)
+          ] as PetActivity);
     actor.activity = activity;
     actor.until = performance.now() + (activity === "jump" ? 1100 : 1800);
     setActivities((current) => ({ ...current, [kind]: activity }));
@@ -382,14 +447,18 @@ function PetCompanions() {
         activity={activities.cat}
         sound="Meow!"
         onInteract={interact}
-        actorRef={(element) => { actorElements.current.cat = element; }}
+        actorRef={(element) => {
+          actorElements.current.cat = element;
+        }}
       />
       <MovingPet
         kind="dog"
         activity={activities.dog}
         sound="Woof!"
         onInteract={interact}
-        actorRef={(element) => { actorElements.current.dog = element; }}
+        actorRef={(element) => {
+          actorElements.current.dog = element;
+        }}
       />
     </div>
   );
@@ -1318,7 +1387,7 @@ function App() {
               <PixelLabel>08 / Documents</PixelLabel>
               <h2>My Documents</h2>
               <p>
-                View my résumé and cover letter for an overview of my education,
+                View my resume and cover letter for an overview of my education,
                 skills, and project experience.
               </p>
             </div>
@@ -1327,7 +1396,7 @@ function App() {
               href={resume}
               target="_blank"
               rel="noreferrer"
-              aria-label="Open Philip Miguel's résumé PDF in a new tab"
+              aria-label="Open Philip Miguel's resume PDF in a new tab"
             >
               <span className="resume-file-icon">
                 <BriefcaseBusiness size={20} />
