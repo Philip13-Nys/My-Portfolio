@@ -19,14 +19,9 @@ export const profile = {
 
 export const education = [
   {
-    level: "Elementary",
-    school: "Papandayan Elementary School",
-    period: "2016–2017",
-  },
-  {
-    level: "Junior High School",
-    school: "Leuteboro National Highschool",
-    period: "2017–2021",
+    level: "College",
+    school: "STI College Batangas",
+    period: "2025–Present",
   },
   {
     level: "Senior High School",
@@ -34,9 +29,14 @@ export const education = [
     period: "2021–2023",
   },
   {
-    level: "College",
-    school: "STI College Batangas",
-    period: "2025–Present",
+    level: "Junior High School",
+    school: "Leuteboro National Highschool",
+    period: "2017–2021",
+  },
+  {
+    level: "Elementary",
+    school: "Papandayan Elementary School",
+    period: "2016–2017",
   },
 ];
 

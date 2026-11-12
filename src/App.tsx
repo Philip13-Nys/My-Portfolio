@@ -25,7 +25,7 @@ import {
   projects,
   skills,
 } from "./data";
-import profilePhoto from "./assets/philip-profile-cutout.png";
+import profilePhoto from "./assets/philip-profile-suit.png";
 import coverLetter from "./assets/philip-miguel-cover-letter.pdf";
 import resume from "./assets/philip-miguel-resume.pdf";
 import MusicPlayer from "./MusicPlayer";

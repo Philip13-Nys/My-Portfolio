@@ -2588,8 +2588,8 @@ body {
   transform: none;
 }
 .portrait-photo {
-  object-fit: cover;
-  object-position: center top;
+  object-fit: contain;
+  object-position: center bottom;
 }
 .about-avatar img {
   object-fit: cover;
